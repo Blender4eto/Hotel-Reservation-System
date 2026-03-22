@@ -13,7 +13,7 @@ namespace Hotel_Reservation_System.Domain.Enums
         Buffet,
         Babysitting,
         RoomCleaning,
-        Companion,
+        VIPCompanion,
         Laundry,
         AirportTransfer,
         Fitness,
