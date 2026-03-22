@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_Reservation_System.Domain.Entities
 {
-    internal class Reservation
+    public class Reservation
     {
         public Room Room { get; set; }
         public Guest Guest { get; set; } // На чие име е резервирана стаята (не кои са гостите в нея)

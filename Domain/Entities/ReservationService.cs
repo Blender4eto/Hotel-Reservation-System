@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_Reservation_System.Domain.Entities
 {
-    internal class ReservationService
+    public class ReservationService
     {
         public ServiceType Type { get; set; }
         public int DurationInDays { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_Reservation_System.Domain.Entities
 {
-    internal class Room
+    public class Room
     {
         public int RoomNumber { get; private set; }
         public int Floor { get; private set; }
