@@ -11,6 +11,6 @@ namespace Hotel_Reservation_System.Domain.Entities
     {
         public ServiceType Type { get; set; }
         public int DurationInDays { get; set; }
-        public decimal Price { get; set; }
+        public decimal PricePerDay { get; set; }
     }
 }
