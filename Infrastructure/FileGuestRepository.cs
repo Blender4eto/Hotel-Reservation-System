@@ -53,11 +53,11 @@ namespace Hotel_Reservation_System.Infrastructure
             else
             {
                 bool found = false;
-                for (int i = 0; i < db.Accounts.Count; i++)
+                for (int i = 0; i < db.Guests.Count; i++)
                 {
-                    if (db.Accounts[i].Id == account.Id)
+                    if (db.Guests[i].Id == guest.Id)
                     {
-                        db.Accounts[i] = account;
+                        db.Guests[i] = guest;
                         found = true;
                         break;
                     }
