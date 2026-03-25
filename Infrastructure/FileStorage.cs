@@ -11,7 +11,7 @@ namespace Hotel_Reservation_System.Infrastructure
     {
         private readonly string path;
 
-        public FileStorage(string path)
+        public FileStorage(string path = "hotel.json")
         {
             this.path = path;
         }
