@@ -41,14 +41,14 @@ namespace Hotel_Reservation_System.Infrastructure
 
             if (guest.GuestId == 0)
             {
+               
                 var newGuest = new Guest
                 {
                     GuestId = db.Guests.Count > 0 ? db.Guests.Max(g => g.GuestId) + 1 : 1,
-                    FirstName = guest.
-                    FirstName,
+                    FirstName = guest.FirstName,
                     LastName = guest.LastName,
                    PhoneNumber = guest.PhoneNumber
-                    
+
                 };
                 db.Guests.Add(newGuest);
             }
