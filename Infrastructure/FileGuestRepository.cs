@@ -11,14 +11,14 @@ namespace Hotel_Reservation_System.Infrastructure
 {
     public class FileGuestRepository : IGuestRepository
     {
-       public FileStorage storage;
+        public FileStorage storage;
         public FileGuestRepository(FileStorage storage)
         {
             this.storage = storage;
         }
-     public IReadOnlyList<Guest> GetAll()
+        public IReadOnlyList<Guest> GetAll()
         {
-            var db= storage.Load();
+            var db = storage.Load();
             return db.Guests;
 
         }
@@ -27,7 +27,7 @@ namespace Hotel_Reservation_System.Infrastructure
             var db = storage.Load();
             foreach (var guests in db.Guests)
             {
-                if (guests.Id == id)
+                if (guests.GuestId == id)
                 {
                     return guests;
                 }
@@ -35,18 +35,20 @@ namespace Hotel_Reservation_System.Infrastructure
 
             throw new Exception("Guest not found");
         }
-        public void Save(Guest  guest)
+        public void Save(Guest guest)
         {
             var db = storage.Load();
 
-            if (guest.Id == 0)
+            if (guest.GuestId == 0)
             {
-               var newGuest = new Guest
+                var newGuest = new Guest
                 {
-                    Id = db.Guests.Count > 0 ? db.Guests.Max(g => g.Id) + 1 : 1,
-                    Name = guest.Name,
-                    Email = guest.Email,
-                    PhoneNumber = guest.PhoneNumber
+                    GuestId = db.Guests.Count > 0 ? db.Guests.Max(g => g.GuestId) + 1 : 1,
+                    FirstName = guest.
+                    FirstName,
+                    LastName = guest.LastName,
+                   PhoneNumber = guest.PhoneNumber
+                    
                 };
                 db.Guests.Add(newGuest);
             }
@@ -55,7 +57,7 @@ namespace Hotel_Reservation_System.Infrastructure
                 bool found = false;
                 for (int i = 0; i < db.Guests.Count; i++)
                 {
-                    if (db.Guests[i].Id == guest.Id)
+                    if (db.Guests[i].GuestId == guest.GuestId)
                     {
                         db.Guests[i] = guest;
                         found = true;
@@ -70,4 +72,5 @@ namespace Hotel_Reservation_System.Infrastructure
 
             storage.Save(db);
         }
+    }
 }
