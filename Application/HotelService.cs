@@ -49,6 +49,6 @@ namespace Hotel_Reservation_System.Application
                 lastName,
                 position
                 );
-            staffRepository.Save(staff);
+            staffRepository.AddStaff(staff);
     }    }   
 }
