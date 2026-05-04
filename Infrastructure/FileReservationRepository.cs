@@ -1,0 +1,47 @@
+﻿using Hotel_Reservation_System.Application;
+using Hotel_Reservation_System.Domain.Entities;
+using Hotel_Reservation_System.Domain.ValueObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Hotel_Reservation_System.Infrastructure
+{
+    public class FileReservationRepository : IReservationRepository
+    {
+        public FileStorage storage;
+    
+        //Trqbva da go pregledam(ne cheti tova denka)
+        public FileReservationRepository(FileStorage storage)
+        {
+            this.storage = storage;
+        }
+        public IReadOnlyList<Reservation> GetReservations()
+        {
+            var db = storage.Load();
+            return db.Reservations;
+        }
+        public Reservation GetReservationByRoom(int reservationId)
+        {
+            var db = storage.Load();
+            foreach (var reservation in db.Reservations)
+            {
+                if (reservation.Room == reservationId)
+                {
+                    return reservation;
+                }
+            }
+            throw new Exception("Reservation not found");
+   
+        }
+        public void AddReservation(Reservation reservation)
+        {
+
+            var db = storage.Load();
+            db.Reservations.Add(reservation);
+        }
+
+    }
+}
