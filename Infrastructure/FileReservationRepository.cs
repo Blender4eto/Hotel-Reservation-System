@@ -28,7 +28,7 @@ namespace Hotel_Reservation_System.Infrastructure
             var db = storage.Load();
             foreach (var reservation in db.Reservations)
             {
-                if (reservation.Room == reservationId)
+                if (reservation.Id == reservationId)
                 {
                     return reservation;
                 }
