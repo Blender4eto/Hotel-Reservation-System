@@ -23,7 +23,7 @@ namespace Hotel_Reservation_System.Infrastructure
             var db = storage.Load();
             return db.Reservations;
         }
-        public Reservation GetReservationByRoom(int reservationId)
+        public Reservation GetReservationById(int reservationId)
         {
             var db = storage.Load();
             foreach (var reservation in db.Reservations)

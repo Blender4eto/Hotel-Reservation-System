@@ -10,7 +10,7 @@ namespace Hotel_Reservation_System.Application
     public interface IReservationRepository
     {
         IReadOnlyList<Reservation> GetReservations();
-        Reservation GetReservationByRoom(int reservationId);
+        Reservation GetReservationById(int reservationId);
         void AddReservation(Reservation reservation);
     }
 }
