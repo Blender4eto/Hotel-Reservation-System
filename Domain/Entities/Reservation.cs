@@ -12,6 +12,7 @@ namespace Hotel_Reservation_System.Domain.Entities
         public Guest Guest { get; set; } // На чие име е резервирана стаята (не кои са гостите в нея)
         public List<ReservationService> Services { get; set; } = new List<ReservationService>();
         public int Days { get; set; }
+        public int Id { get; set; }
 
         public decimal FinalPrice
         {
@@ -28,7 +29,7 @@ namespace Hotel_Reservation_System.Domain.Entities
             }
         }
 
-        public Reservation(Room room, Guest guest, int days)
+        public Reservation(Room room, Guest guest, int days, int id)
         {
             if (days <= 0)
             {
@@ -38,6 +39,7 @@ namespace Hotel_Reservation_System.Domain.Entities
             this.Room = room;
             this.Guest = guest;
             this.Days = days;
+            Id = id;
         }
 
         public void AddService(ReservationService service)
