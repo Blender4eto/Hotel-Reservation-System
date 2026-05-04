@@ -7,6 +7,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using Hotel_Reservation_System.Domain.ValueObject;
+using Hotel_Reservation_System.Application.Interfaces;
 
 namespace Hotel_Reservation_System.Application
 {

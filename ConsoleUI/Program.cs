@@ -1,4 +1,4 @@
-﻿namespace Hotel_Reservation_System
+﻿namespace Hotel_Reservation_System.ConsoleUI
 {
     internal class Program
     {

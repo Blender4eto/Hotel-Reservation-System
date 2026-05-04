@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 
-namespace Hotel_Reservation_System.Infrastructure
+namespace Hotel_Reservation_System.Infrastructure.Json
 {
     public class FileStorage
     {

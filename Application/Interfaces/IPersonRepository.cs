@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hotel_Reservation_System.Domain.Entities;
 
-namespace Hotel_Reservation_System.Application
+namespace Hotel_Reservation_System.Application.Interfaces
 {
     public interface IPersonRepository
     {

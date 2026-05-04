@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Hotel_Reservation_System.Application
+namespace Hotel_Reservation_System.Application.Interfaces
 {
     public interface IGuestRepository
     {

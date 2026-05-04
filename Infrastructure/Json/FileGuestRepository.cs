@@ -1,4 +1,4 @@
-﻿using Hotel_Reservation_System.Application;
+﻿using Hotel_Reservation_System.Application.Interfaces;
 using Hotel_Reservation_System.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel_Reservation_System.Infrastructure
+namespace Hotel_Reservation_System.Infrastructure.Json
 {
     public class FileGuestRepository : IGuestRepository
     {

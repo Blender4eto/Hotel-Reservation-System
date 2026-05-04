@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Hotel_Reservation_System.Domain.Entities;
 
-namespace Hotel_Reservation_System.Infrastructure
+namespace Hotel_Reservation_System.Infrastructure.Json
 {
     public class HotelStorage
     {
