@@ -25,12 +25,17 @@ namespace Hotel_Reservation_System.Infrastructure
             var db = storage.Load();
             foreach (var person in db.Persons)
             {
-                if (person.Id == id)
+                if (person.Id == personid)
                 {
                     return person;
                 }
             }
             throw new Exception("Person not found");
+        }
+        public void AddPerson(Person person)
+        {
+            var db = storage.Load();
+            db.Persons.Add(person);
         }
     }
 }
