@@ -14,6 +14,7 @@ namespace Hotel_Reservation_System.Domain.Entities
         public int Capacity { get; private set; }
         public RoomType Type { get; private set; }
         public decimal Price { get; private set; }
+        public int Id { get; private set; }
 
         public List<Guest> Guests { get; private set; } = new List<Guest>();
 
@@ -29,13 +30,14 @@ namespace Hotel_Reservation_System.Domain.Entities
             }
         }
 
-        public Room(int roomNumber, int floor, int capacity, RoomType type, decimal price)
+        public Room(int roomNumber, int floor, int capacity, RoomType type, decimal price, int id)
         {
             this.RoomNumber = roomNumber;
             this.Floor = floor;
             this.Capacity = capacity;
             this.Type = type;
             this.Price = price;
+            this.Id = id;
         }
 
         public bool AddGuest(Guest guest)

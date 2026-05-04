@@ -11,6 +11,7 @@ namespace Hotel_Reservation_System.Domain.Entities
     {
         public ServiceType Type { get; set; }
         public int DurationInDays { get; set; }
+        public int Id { get; set; }
         public decimal PricePerDay
         {
             get
@@ -64,6 +65,9 @@ namespace Hotel_Reservation_System.Domain.Entities
                     throw new ArgumentException("Invalid service type.");
                 }
             }
+            
         }
+   
+       
     }
 }
