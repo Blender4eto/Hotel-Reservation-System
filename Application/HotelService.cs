@@ -51,6 +51,27 @@ namespace Hotel_Reservation_System.Application
                 );
             staffRepository.AddStaff(staff);
 
-    }    }   
+         }
 
-}
+
+        public void AddRoom(int roomNumber, int floor, int capacity, RoomType type, decimal price, int id)
+        {
+            var room = new Room(
+                0,
+                roomNumber,
+                floor,
+                capacity,
+                type,
+                price,
+                id
+
+                );
+            roomRepository.AddRoom(room);
+
+        }
+    }
+
+}   
+
+    
+

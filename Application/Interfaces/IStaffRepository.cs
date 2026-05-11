@@ -12,5 +12,6 @@ namespace Hotel_Reservation_System.Application.Interfaces
         IReadOnlyList<Staff> GetStaff();
         Staff GetStaffById(int staffId);
         void AddStaff(Staff staff);
+      
     }
 }
