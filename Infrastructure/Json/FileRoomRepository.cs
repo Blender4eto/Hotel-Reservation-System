@@ -46,7 +46,6 @@ namespace Hotel_Reservation_System.Infrastructure.Json
             if (room.Id == 0)
             {
                 var newRoom = new Room(
-                    room.RoomNumber,
                     room.Floor,
                     room.Capacity,
                     room.RoomNumber, 
