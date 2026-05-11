@@ -1,14 +1,13 @@
 ﻿using Hotel_Reservation_System.Application;
 using Hotel_Reservation_System.Application.Interfaces;
 using Hotel_Reservation_System.Domain.Entities;
-using Hotel_Reservation_System.Infrastructure.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel_Reservation_System.Infrastructure
+namespace Hotel_Reservation_System.Infrastructure.Json
 {
     public class FileRoomRepository : IRoomRepository
     {
