@@ -50,5 +50,7 @@ namespace Hotel_Reservation_System.Application
                 position
                 );
             staffRepository.AddStaff(staff);
+
     }    }   
+
 }
