@@ -13,7 +13,7 @@ namespace Hotel_Reservation_System.Infrastructure.Json
     {
         public FileStorage storage;
 
-        //Trqbva da go pregledam(ne cheti tova denka)
+       
         public FileRoomRepository(FileStorage storage)
         {
             this.storage = storage;
