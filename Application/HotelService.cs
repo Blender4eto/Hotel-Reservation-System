@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hotel_Reservation_System.Domain.ValueObject;
 using Hotel_Reservation_System.Application.Interfaces;
+using Hotel_Reservation_System.Infrastructure.Json;
 
 namespace Hotel_Reservation_System.Application
 {
@@ -30,48 +31,28 @@ namespace Hotel_Reservation_System.Application
             this.staffRepository = staffRepository;
         }
 
-      public void AddGuest(string firstName, string lastName, string phoneNumber)
+        public void AddGuest(string firstName, string lastName, string phoneNumber)
         {
-            var guest = new Guest(
-                0,
-                firstName,
-                lastName,
-                phoneNumber
-                );
-
+            var guest = new Guest(0, firstName, lastName, phoneNumber);
             guestRepository.Save(guest);
+
         }
         public void AddStaff(string firstName, string lastName, string position)
         {
-            var staff = new Staff(
-                0,
-                firstName,
-                lastName,
-                position
-                );
+            var staff = new Staff(0, firstName, lastName, position);
             staffRepository.AddStaff(staff);
 
-         }
+        }
 
-
-        public void AddRoom(int roomNumber, int floor, int capacity, RoomType type, decimal price, int id)
+        public void AddRoom(int roomNumber, int floor, int capacity, RoomType type, decimal price)
         {
-            var room = new Room(
-                0,
-                roomNumber,
-                floor,
-                capacity,
-                type,
-                price,
-                id
-
-                );
+            var room = new Room(roomNumber, floor, capacity, type, price, 0);
             roomRepository.AddRoom(room);
 
         }
+
+        public IReadOnlyList<Room> Rooms => roomRepository.GetRooms();
     }
 
 }   
-
-    
 
