@@ -163,6 +163,47 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Please enter room's id you desire to edit: ");
             int editRoomId = int.Parse(Console.ReadLine());
 
+            Console.WriteLine("\n------ Editable: ------");
+            Console.WriteLine("1. Room's number");
+            Console.WriteLine("2. Room's floor");
+            Console.WriteLine("3. Room's capacity");
+            Console.WriteLine("4. Room's type");
+            Console.WriteLine("5. Room's price");
+            Console.WriteLine("-----------------------");
+            Console.Write("Enter number of your choice: ");
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    Console.Write("\nEnter new number for the room: ");
+                    int newNum = int.Parse(Console.ReadLine());
+                    break;
+                case "2":
+                    Console.Write("\nEnter new floor for the room: ");
+                    int newFloor = int.Parse(Console.ReadLine());
+                    break;
+                case "3":
+                    Console.Write("\nEnter new capacity for the room: ");
+                    int newCapacity = int.Parse(Console.ReadLine());
+                    break;
+                case "4":
+                    Console.WriteLine("\n------ Types ------");
+                    Console.WriteLine("0. Standard");
+                    Console.WriteLine("1. Comfort");
+                    Console.WriteLine("2. Luxury");
+                    Console.WriteLine("-------------------");
+                    Console.Write("Choose new type for the room: ");
+                    int newType = int.Parse(Console.ReadLine());
+                    break;
+                case "5":
+                    Console.Write("Enter new price for the room: ");
+                    int newPrice = int.Parse(Console.ReadLine());
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Returning to Menu.");
+                    break;
+            }
         }
 
         private void PrintRooms()
