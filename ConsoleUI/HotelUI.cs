@@ -1,13 +1,15 @@
 ﻿using Hotel_Reservation_System.Application;
 using Hotel_Reservation_System.Application.Interfaces;
+using Hotel_Reservation_System.Domain.Entities;
+using Hotel_Reservation_System.Domain.Enums;
+using Hotel_Reservation_System.Infrastructure.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Hotel_Reservation_System.Domain.Enums;
-using Hotel_Reservation_System.Domain.Entities;
-using Hotel_Reservation_System.Infrastructure.Json;
 
 namespace Hotel_Reservation_System.ConsoleUI
 {
@@ -159,16 +161,36 @@ namespace Hotel_Reservation_System.ConsoleUI
         private void EditRoom()
         {
             Console.Clear();
+            if (hotelService.Rooms.Count == 0)
+            {
+                Console.WriteLine("No rooms added yet.\n");
+                return;
+            }
             PrintRooms();
             Console.Write("Please enter room's id you desire to edit: ");
             int editRoomId = int.Parse(Console.ReadLine());
+
+            Room room;
+            try
+            {
+                room = hotelService.GetRoomById(editRoomId);
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine($"{ex.Message}\n");
+                return;
+            }
+            int roomNumber = room.RoomNumber;
+            int floor = room.Floor;
+            int capacity = room.Capacity;
+            decimal price = room.Price;
 
             Console.WriteLine("\n------ Editable: ------");
             Console.WriteLine("1. Room's number");
             Console.WriteLine("2. Room's floor");
             Console.WriteLine("3. Room's capacity");
-            Console.WriteLine("4. Room's type");
-            Console.WriteLine("5. Room's price");
+            Console.WriteLine("4. Room's price");
             Console.WriteLine("-----------------------");
             Console.Write("Enter number of your choice: ");
             string choice = Console.ReadLine();
@@ -177,32 +199,36 @@ namespace Hotel_Reservation_System.ConsoleUI
             {
                 case "1":
                     Console.Write("\nEnter new number for the room: ");
-                    int newNum = int.Parse(Console.ReadLine());
+                    roomNumber = int.Parse(Console.ReadLine());
                     break;
                 case "2":
                     Console.Write("\nEnter new floor for the room: ");
-                    int newFloor = int.Parse(Console.ReadLine());
+                    floor = int.Parse(Console.ReadLine());
                     break;
                 case "3":
                     Console.Write("\nEnter new capacity for the room: ");
-                    int newCapacity = int.Parse(Console.ReadLine());
+                    capacity = int.Parse(Console.ReadLine());
                     break;
                 case "4":
-                    Console.WriteLine("\n------ Types ------");
-                    Console.WriteLine("0. Standard");
-                    Console.WriteLine("1. Comfort");
-                    Console.WriteLine("2. Luxury");
-                    Console.WriteLine("-------------------");
-                    Console.Write("Choose new type for the room: ");
-                    int newType = int.Parse(Console.ReadLine());
-                    break;
-                case "5":
                     Console.Write("Enter new price for the room: ");
-                    int newPrice = int.Parse(Console.ReadLine());
+                    price = int.Parse(Console.ReadLine());
                     break;
                 default:
                     Console.WriteLine("Invalid choice. Returning to Menu.");
-                    break;
+                    return;
+            }
+
+            try
+            {
+                hotelService.EditRoom(editRoomId, roomNumber, floor, capacity, price); //it isnt saving, should work if saves are made, not sure how to save
+                Console.Clear();
+                Console.WriteLine("\nRoom successfully edited!\n");
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine($"{ex.Message}\n");
+                return;
             }
         }
 
@@ -211,7 +237,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("------ Rooms: ------");
             foreach (var room in hotelService.Rooms)
             {
-                Console.WriteLine($"Id: {room.Id}, Number: {room.RoomNumber}, Floor: {room.Floor}, Capacity: {room.Capacity}, Type: {room.Type}, Price: {room.Price}€");
+                Console.WriteLine($"Id.{room.Id}: Number - {room.RoomNumber}, Floor - {room.Floor}, Capacity - {room.Capacity}, Type - {room.Type}, Price - {room.Price} Euro");
             }
             Console.WriteLine("--------------------");
         }
