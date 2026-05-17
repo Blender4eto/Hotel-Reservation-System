@@ -61,5 +61,14 @@ namespace Hotel_Reservation_System.Domain.Entities
         {
             Guests.Clear();
         }
+
+        public void EditRoom(int roomNumber, int floor, int capacity, RoomType type, decimal price)
+        {
+            this.RoomNumber = roomNumber;
+            this.Floor = floor;
+            this.Capacity = capacity;
+            this.Price = price;
+            this.Type = type;
+        }
     }
 }
