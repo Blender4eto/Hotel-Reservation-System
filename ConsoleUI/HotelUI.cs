@@ -38,7 +38,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                         EditRoom();
                         break;
                     case "3":
-
+                        ShowAvaibleRooms();
                         break;
                     case "4":
                         break;
@@ -149,7 +149,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             {
                 hotelService.AddRoom(num, floor, capacity, type, price);
                 Console.Clear();
-                Console.WriteLine("\nNew room successfuly added.\n");
+                Console.WriteLine("New room successfuly added.\n");
             }
             catch (Exception ex)
             {
@@ -158,6 +158,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
         }
 
+        //not ready yet
         private void EditRoom()
         {
             Console.Clear();
@@ -198,15 +199,15 @@ namespace Hotel_Reservation_System.ConsoleUI
             switch (choice)
             {
                 case "1":
-                    Console.Write("\nEnter new number for the room: ");
+                    Console.Write("Enter new number for the room: ");
                     roomNumber = int.Parse(Console.ReadLine());
                     break;
                 case "2":
-                    Console.Write("\nEnter new floor for the room: ");
+                    Console.Write("Enter new floor for the room: ");
                     floor = int.Parse(Console.ReadLine());
                     break;
                 case "3":
-                    Console.Write("\nEnter new capacity for the room: ");
+                    Console.Write("Enter new capacity for the room: ");
                     capacity = int.Parse(Console.ReadLine());
                     break;
                 case "4":
@@ -222,7 +223,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             {
                 hotelService.EditRoom(editRoomId, roomNumber, floor, capacity, price); //it isnt saving, should work if saves are made, not sure how to save
                 Console.Clear();
-                Console.WriteLine("\nRoom successfully edited!\n");
+                Console.WriteLine("Room successfully edited!\n");
             }
             catch (Exception ex)
             {
@@ -230,6 +231,28 @@ namespace Hotel_Reservation_System.ConsoleUI
                 Console.WriteLine($"{ex.Message}\n");
                 return;
             }
+        }
+
+        private void ShowAvaibleRooms()
+        {
+            Console.Clear();
+            if(hotelService.Rooms.Count == 0)
+            {
+                Console.WriteLine("No rooms added yet.\n");
+                return;
+            }
+            Console.WriteLine("------ Avaible Rooms: ------");
+            var avaibleRooms = hotelService.Rooms.Where(r => r.IsFree).ToList();
+            if (avaibleRooms.Count == 0)
+            {
+                Console.WriteLine("No avaible rooms at the moment.\n");
+                return;
+            }
+            foreach (var room in avaibleRooms)
+            {
+                Console.WriteLine($"Id.{room.Id}: Number - {room.RoomNumber}, Floor - {room.Floor}, Capacity - {room.Capacity}, Type - {room.Type}, Price - {room.Price} Euro");
+            }
+            Console.WriteLine("---------------------------");
         }
 
         private void PrintRooms()
