@@ -51,6 +51,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                     case "8":
                         break;
                     case "9":
+                        CalculatePrice();
                         break;
                     case "10":
                         break;
@@ -255,6 +256,10 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("---------------------------");
         }
 
+        private void CalculatePrice()
+        {
+            //not sure what to calculate exactly yet
+        }
         private void PrintRooms()
         {
             Console.WriteLine("------ Rooms: ------");
