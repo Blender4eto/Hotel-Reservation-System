@@ -29,7 +29,7 @@ namespace Hotel_Reservation_System.Infrastructure
 
 
             public DbSet<Guest> Guests { get; set; }
-            public DbSet<Person> People { get; set; }
+            //public DbSet<Person> People { get; set; }
 
             public DbSet<Reservation> Reservation { get; set; }
 
@@ -87,23 +87,38 @@ namespace Hotel_Reservation_System.Infrastructure
                 });
 
                 // Reservation
-                modelBuilder.Entity<Reservation>(entity =>
-                {
+                //modelBuilder.Entity<Reservation>(entity =>
+                //{
                    
 
-                    entity.Property(r => r.Days)
-                          .IsRequired();
-                    //Reservation -> Guest
-                    entity.HasOne(r => r.Guest)
-                   .WithMany()
-                  .HasForeignKey(r => r.Id);
+                //    entity.Property(r => r.Days)
+                //          .IsRequired();
+                //    //Reservation -> Guest
+                //    entity.HasOne(r => r.Guest)
+                //   .WithMany()
+                //  .HasForeignKey(r => r.Id);
                      
 
+                //    entity.HasOne(r => r.Room)
+                //          .WithMany()
+                //          .HasForeignKey(r => r.Id);
+                //});
+
+                modelBuilder.Entity<Reservation>(entity =>
+                {
+                    entity.Property(r => r.Days)
+                          .IsRequired();
+
+                    // Reservation -> Guest
+                    entity.HasOne(r => r.Guest)
+                          .WithMany()
+                          .HasForeignKey(r => r.GuestId);
+
+                    // Reservation -> Room
                     entity.HasOne(r => r.Room)
                           .WithMany()
-                          .HasForeignKey(r => r.Id);
+                          .HasForeignKey(r => r.RoomId);
                 });
-
                 // Person (ако е base class)
                 modelBuilder.Entity<Person>(entity =>
                 {
