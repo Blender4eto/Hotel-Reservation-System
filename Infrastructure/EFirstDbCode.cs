@@ -43,7 +43,7 @@ namespace Hotel_Reservation_System.Infrastructure
                 // Guest
                 modelBuilder.Entity<Guest>(entity =>
                 {
-                    entity.HasKey(g => g.Id);
+                    
 
                     entity.Property(g => g.FirstName)
                           .IsRequired()
@@ -60,7 +60,7 @@ namespace Hotel_Reservation_System.Infrastructure
                 // Staff
                 modelBuilder.Entity<Staff>(entity =>
                 {
-                    entity.HasKey(s => s.Id);
+                   
 
                     entity.Property(s => s.FirstName)
                           .IsRequired()
@@ -77,7 +77,7 @@ namespace Hotel_Reservation_System.Infrastructure
                 // Room
                 modelBuilder.Entity<Room>(entity =>
                 {
-                    entity.HasKey(r => r.Id);
+                    
 
                     entity.Property(r => r.RoomNumber)
                           .IsRequired();
@@ -89,22 +89,19 @@ namespace Hotel_Reservation_System.Infrastructure
                 // Reservation
                 modelBuilder.Entity<Reservation>(entity =>
                 {
-                    entity.HasKey(r => r.Id);
+                   
 
                     entity.Property(r => r.Days)
                           .IsRequired();
-
-                    // Reservation -> Guest
+                    //Reservation -> Guest
                     entity.HasOne(r => r.Guest)
-                          .WithMany(g => g.Reservations)
-                          .HasForeignKey(r => r.GuestId)
-                          .OnDelete(DeleteBehavior.Cascade);
+                   .WithMany()
+                  .HasForeignKey(r => r.Id);
+                     
 
-                    // Reservation -> Room
                     entity.HasOne(r => r.Room)
-                          .WithMany(rm => rm.Reservations)
-                          .HasForeignKey(r => r.RoomId)
-                          .OnDelete(DeleteBehavior.Restrict);
+                          .WithMany()
+                          .HasForeignKey(r => r.Id);
                 });
 
                 // Person (ако е base class)

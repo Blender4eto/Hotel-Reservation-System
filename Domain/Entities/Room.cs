@@ -18,6 +18,11 @@ namespace Hotel_Reservation_System.Domain.Entities
 
         public List<Guest> Guests { get; private set; } = new List<Guest>();
 
+        public Room()
+        {
+
+        }
+
         public bool IsFree
         {
             get

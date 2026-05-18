@@ -11,6 +11,11 @@ namespace Hotel_Reservation_System.Domain.Entities
         public int GuestId { get; set; }
         public string PhoneNumber { get; set; }
 
+       public Guest()
+        {
+
+        }
+
         public Guest(int guestId, string firstName, string lastName, string phoneNumber) : base (firstName, lastName, guestId)
         {
             this.GuestId = guestId;
