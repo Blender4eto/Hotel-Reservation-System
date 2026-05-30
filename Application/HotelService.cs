@@ -51,7 +51,7 @@ namespace Hotel_Reservation_System.Application
 
         public void AddRoom(int roomNumber, int floor, int capacity, RoomType type, decimal price)
         {
-            var room = new Room(roomNumber, floor, capacity, type, price, 0);
+            var room = new Room(roomNumber, floor, capacity, type, price);
             roomRepository.AddRoom(room);
         }
 

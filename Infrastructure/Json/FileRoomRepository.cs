@@ -50,8 +50,9 @@ namespace Hotel_Reservation_System.Infrastructure.Json
                     room.Capacity,
                     room.RoomNumber, 
                     room.Type,
-                    room.Price,
-                    db.NextId++
+                    room.Price
+                    //,
+                    //db.NextId++
                     );
                 db.Rooms.Add(newRoom);
             }

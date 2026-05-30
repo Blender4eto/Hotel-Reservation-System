@@ -35,14 +35,13 @@ namespace Hotel_Reservation_System.Domain.Entities
             }
         }
 
-        public Room(int roomNumber, int floor, int capacity, RoomType type, decimal price, int id)
+        public Room(int roomNumber, int floor, int capacity, RoomType type, decimal price)
         {
             this.RoomNumber = roomNumber;
             this.Floor = floor;
             this.Capacity = capacity;
             this.Type = type;
             this.Price = price;
-            this.Id = id;
         }
 
         public bool AddGuest(Guest guest)

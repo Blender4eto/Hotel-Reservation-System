@@ -12,14 +12,10 @@ namespace Hotel_Reservation_System.Application.Interfaces
     public interface IGuestRepository
     {
         IReadOnlyList<Guest> GetAll();
-        // IReadOnlyList<Guest> GetGuests();
+        //IReadOnlyList<Guest> GetGuests();
         Guest GetById(int id);
-       // Guest GetGuestById(int guestId);
+        //Guest GetGuestById(int guestId);
         //void AddGuest(Guest guest);
         void Save(Guest guest);
-
-
-
-
     }
 }
