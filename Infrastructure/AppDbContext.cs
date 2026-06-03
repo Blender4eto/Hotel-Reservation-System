@@ -21,12 +21,13 @@ namespace Hotel_Reservation_System.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
        => optionsBuilder.UseSqlServer(
-           "Data Source=BLENDERTOP\\SQLEXPRESS;Database=CodeFirstDb;Integrated Security=True;TrustServerCertificate=True;");
+           "Data Source=BLENDERTOP\\SQLEXPRESS;Database=CodeFirstDb2;Integrated Security=True;TrustServerCertificate=True;");
 
 
         public DbSet<Guest> Guests { get; set; }
 
-        //public DbSet<Person> People { get; set; }
+        public DbSet<Person> People { get; set; }
+        public DbSet<ReservationService> ReservationServices { get; set; }
 
         public DbSet<Reservation> Reservation { get; set; }
         public DbSet<Room> Rooms { get; set; }
@@ -82,23 +83,23 @@ namespace Hotel_Reservation_System.Infrastructure
                       .HasColumnType("decimal(18,2)");
             });
 
-            // Reservation
-            //modelBuilder.Entity<Reservation>(entity =>
-            //{
+           // Reservation
+            modelBuilder.Entity<Reservation>(entity =>
+            {
 
 
-            //    entity.Property(r => r.Days)
-            //          .IsRequired();
-            //    //Reservation -> Guest
-            //    entity.HasOne(r => r.Guest)
-            //   .WithMany()
-            //  .HasForeignKey(r => r.Id);
+                entity.Property(r => r.Days)
+                      .IsRequired();
+                //Reservation -> Guest
+                entity.HasOne(r => r.Guest)
+               .WithMany()
+              .HasForeignKey(r => r.Id);
 
 
-            //    entity.HasOne(r => r.Room)
-            //          .WithMany()
-            //          .HasForeignKey(r => r.Id);
-            //});
+                entity.HasOne(r => r.Room)
+                      .WithMany()
+                      .HasForeignKey(r => r.Id);
+            });
 
             modelBuilder.Entity<Reservation>(entity =>
             {

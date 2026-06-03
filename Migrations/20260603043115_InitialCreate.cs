@@ -28,7 +28,7 @@ namespace Hotel_Reservation_System.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Person",
+                name: "People",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -44,9 +44,9 @@ namespace Hotel_Reservation_System.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Person", x => x.Id);
+                    table.PrimaryKey("PK_People", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Person_Rooms_RoomId",
+                        name: "FK_People_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
                         principalColumn: "Id");
@@ -66,9 +66,9 @@ namespace Hotel_Reservation_System.Migrations
                 {
                     table.PrimaryKey("PK_Reservation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reservation_Person_GuestId",
+                        name: "FK_Reservation_People_GuestId",
                         column: x => x.GuestId,
-                        principalTable: "Person",
+                        principalTable: "People",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -80,7 +80,7 @@ namespace Hotel_Reservation_System.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReservationService",
+                name: "ReservationServices",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -91,17 +91,17 @@ namespace Hotel_Reservation_System.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReservationService", x => x.Id);
+                    table.PrimaryKey("PK_ReservationServices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ReservationService_Reservation_ReservationId",
+                        name: "FK_ReservationServices_Reservation_ReservationId",
                         column: x => x.ReservationId,
                         principalTable: "Reservation",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Person_RoomId",
-                table: "Person",
+                name: "IX_People_RoomId",
+                table: "People",
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
@@ -115,8 +115,8 @@ namespace Hotel_Reservation_System.Migrations
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReservationService_ReservationId",
-                table: "ReservationService",
+                name: "IX_ReservationServices_ReservationId",
+                table: "ReservationServices",
                 column: "ReservationId");
         }
 
@@ -124,13 +124,13 @@ namespace Hotel_Reservation_System.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ReservationService");
+                name: "ReservationServices");
 
             migrationBuilder.DropTable(
                 name: "Reservation");
 
             migrationBuilder.DropTable(
-                name: "Person");
+                name: "People");
 
             migrationBuilder.DropTable(
                 name: "Rooms");

@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hotel_Reservation_System.Migrations
 {
-    [DbContext(typeof(EFirstDbCode.AppDbContext))]
-    [Migration("20260530143516_InitialTest")]
-    partial class InitialTest
+    [DbContext(typeof(AppDbContext))]
+    [Migration("20260603043115_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,7 +49,7 @@ namespace Hotel_Reservation_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Person");
+                    b.ToTable("People");
 
                     b.HasDiscriminator().HasValue("Person");
 
@@ -103,7 +103,7 @@ namespace Hotel_Reservation_System.Migrations
 
                     b.HasIndex("ReservationId");
 
-                    b.ToTable("ReservationService");
+                    b.ToTable("ReservationServices");
                 });
 
             modelBuilder.Entity("Hotel_Reservation_System.Domain.Entities.Room", b =>
