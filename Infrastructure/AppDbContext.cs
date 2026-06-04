@@ -21,7 +21,7 @@ namespace Hotel_Reservation_System.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
        => optionsBuilder.UseSqlServer(
-           "Data Source=BLENDERTOP\\SQLEXPRESS;Database=CodeFirstDb2;Integrated Security=True;TrustServerCertificate=True;");
+           "Data Source=(localdb)\\MSSQLLocalDB;Database=CodeFirstDb3;Integrated Security=True;TrustServerCertificate=True;");
 
 
         public DbSet<Guest> Guests { get; set; }
@@ -36,6 +36,14 @@ namespace Hotel_Reservation_System.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Person>()
+               .ToTable("People");
+
+            modelBuilder.Entity<Guest>()
+                .ToTable("Guests");
+
+            modelBuilder.Entity<Staff>()
+                .ToTable("Staffs");
 
             // Guest
             modelBuilder.Entity<Guest>(entity =>
