@@ -39,8 +39,8 @@ namespace Hotel_Reservation_System.Infrastructure.Sql
                 room.RoomNumber,
                 room.Floor,
                 room.Capacity,
-                room.Type,
-                room.Price
+                room.Type
+                //room.Price
             );
 
             db.Rooms.Add(newRoom);

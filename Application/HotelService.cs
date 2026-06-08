@@ -54,16 +54,16 @@ namespace Hotel_Reservation_System.Application
             staffRepository.AddStaff(staff);
         }
 
-        public void AddRoom(int roomNumber, int floor, int capacity, RoomType type, decimal price)
+        public void AddRoom(int roomNumber, int floor, int capacity, RoomType type)
         {
-            var room = new Room(roomNumber, floor, capacity, type, price);
+            var room = new Room(roomNumber, floor, capacity, type);
             roomRepository.AddRoom(room);
         }
 
-        public void EditRoom(int id, int roomNumber, int floor, int capacity, decimal price)
+        public void EditRoom(int id, int roomNumber, int floor, int capacity, RoomType type)
         {
             var room = GetRoomById(id);
-            room.EditRoom(roomNumber, floor, capacity, room.Type, price);
+            room.EditRoom(roomNumber, floor, capacity, type);
         }
     }
 }   

@@ -13,7 +13,16 @@ namespace Hotel_Reservation_System.Domain.Entities
         public int Floor { get; private set; }
         public int Capacity { get; private set; }
         public RoomType Type { get; private set; }
-        public decimal Price { get; private set; }
+        public decimal Price
+        {
+            get
+            {
+                if (Type == RoomType.Standard) return 100m;
+                else if (Type == RoomType.Comfort) return 500m;
+                else if (Type == RoomType.Luxury) return 1000m;
+                else return 0m;
+            }
+        }
         public int Id { get; private set; }
 
         public List<Guest> Guests { get; private set; } = new List<Guest>();
@@ -35,13 +44,12 @@ namespace Hotel_Reservation_System.Domain.Entities
             }
         }
 
-        public Room(int roomNumber, int floor, int capacity, RoomType type, decimal price)
+        public Room(int roomNumber, int floor, int capacity, RoomType type)
         {
             this.RoomNumber = roomNumber;
             this.Floor = floor;
             this.Capacity = capacity;
             this.Type = type;
-            this.Price = price;
         }
 
         public bool AddGuest(Guest guest)
@@ -66,12 +74,12 @@ namespace Hotel_Reservation_System.Domain.Entities
             Guests.Clear();
         }
 
-        public void EditRoom(int roomNumber, int floor, int capacity, RoomType type, decimal price)
+        //decimal price maybe add, idk
+        public void EditRoom(int roomNumber, int floor, int capacity, RoomType type)
         {
             this.RoomNumber = roomNumber;
             this.Floor = floor;
             this.Capacity = capacity;
-            this.Price = price;
             this.Type = type;
         }
     }
