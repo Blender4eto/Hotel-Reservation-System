@@ -106,14 +106,11 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("12. Reservations History");
             Console.WriteLine("13. Occupancy Rate");
             Console.WriteLine("14. Income Rate");
-            Console.WriteLine("15. Manage a Room's Type"); // ТОВА ГО МАХАМЕ  заради 2.
-            Console.WriteLine("16. Manage a Reservation's Services"); // Добавяне на допълнителна услуга към списък с услуги - CAN SKIP!!!!!!!
-            Console.WriteLine("17. Validate Reservation"); // Проверка дали определена резервация се припокрива с друга резервация за една и съща стая
-            Console.WriteLine("18. Show all Guests");
-            Console.WriteLine("19. Show Most Popular Rooms");
-            Console.WriteLine("20. Hire Staff Member");
-            Console.WriteLine("21. Edit Staff Member");
-            Console.WriteLine("22. Fire Staff Member");
+            Console.WriteLine("15. Manage a Reservation's Services"); // Добавяне на допълнителна услуга към списък с услуги - CAN SKIP!!!!!!!
+            Console.WriteLine("16. Validate Reservation"); // Проверка дали определена резервация се припокрива с друга резервация за една и съща стая
+            Console.WriteLine("17. Show all Guests");
+            Console.WriteLine("18. Show Most Popular Rooms");
+            Console.WriteLine("19. Manage Staff Members");
             Console.WriteLine("0. Exit");
             Console.WriteLine("-----------------------------");
             Console.Write("Choose an option: ");
