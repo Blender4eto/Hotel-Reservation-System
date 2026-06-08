@@ -32,15 +32,17 @@ namespace Hotel_Reservation_System.Infrastructure.Sql
             }
             throw new Exception("Room not found");
         }
+
         public void AddRoom(Room room)
         {
             var newRoom = new Room(
-                    room.Floor,
-                    room.Capacity,
-                    room.RoomNumber,
-                    room.Type,
-                    room.Price
-                    );
+                room.RoomNumber,
+                room.Floor,
+                room.Capacity,
+                room.Type,
+                room.Price
+            );
+
             db.Rooms.Add(newRoom);
             db.SaveChanges();
         }

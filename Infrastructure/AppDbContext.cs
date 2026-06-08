@@ -20,8 +20,7 @@ namespace Hotel_Reservation_System.Infrastructure
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-       => optionsBuilder.UseSqlServer(
-           "Data Source=(localdb)\\MSSQLLocalDB;Database=CodeFirstDb3   ;Integrated Security=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Data Source=BLENDERTOP\\SQLEXPRESS;Database=CodeFirstDb;Integrated Security=True;TrustServerCertificate=True;");
 
 
         public DbSet<Guest> Guests { get; set; }

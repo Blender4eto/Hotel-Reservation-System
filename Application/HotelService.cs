@@ -31,7 +31,12 @@ namespace Hotel_Reservation_System.Application
             this.staffRepository = staffRepository;
         }
 
-        public IReadOnlyList<Room> Rooms => roomRepository.GetRooms();
+        public IReadOnlyList<Room> Rooms => GetRooms();
+
+        public IReadOnlyList<Room> GetRooms()
+        {
+            return roomRepository.GetRooms();
+        }
         public Room GetRoomById(int id)
         {
             return roomRepository.GetRooms().FirstOrDefault(r => r.Id == id);

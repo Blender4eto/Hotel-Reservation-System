@@ -18,12 +18,11 @@ namespace Hotel_Reservation_System.ConsoleUI
             var db = new AppDbContext(options);
 
             IGuestRepository guestRepo = new SqlGuestRepository(db);
+            IPersonRepository personRepo = new SqlPersonRepository(db);
             IReservationRepository reservationRepo = new SqlReservationRepository(db);
+            IReservationServiceRepository reservationServiceRepo = new SqlReservationServiceRepository(db);
             IRoomRepository roomRepo = new SqlRoomRepository(db);
             IStaffRepository staffRepo = new SqlStaffRepository(db);
-            //maybe these are useless repos?
-            IPersonRepository personRepo = new FilePersonRepository(storage);
-            IReservationServiceRepository reservationServiceRepo = new FileReservationServiceRepository(storage);
 
             var service = new HotelService(guestRepo, personRepo, reservationRepo, reservationServiceRepo, roomRepo, staffRepo);
             var ui = new HotelUI(service);

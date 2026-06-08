@@ -92,22 +92,22 @@ namespace Hotel_Reservation_System.ConsoleUI
         public void Menu()
         {
             Console.WriteLine("------ Hotel ------");
-            Console.WriteLine("1. Add Room");
-            Console.WriteLine("2. Edit Room"); // Не се променя вида на стаята заради №15
-            Console.WriteLine("3. Show Avaible Rooms");
+            Console.WriteLine("1. Add Room"); // типа определя цената на стаята
+            Console.WriteLine("2. Edit Room"); // типа определя цената на стаята
+            Console.WriteLine("3. Show Available Rooms");
             Console.WriteLine("4. Make a Reservation");
             Console.WriteLine("5. Cancel a Reservation");
             Console.WriteLine("6. Register a Guest");
             Console.WriteLine("7. Move in a Guest");
             Console.WriteLine("8. Move out a Guest");
             Console.WriteLine("9. Calculate a Price");
-            Console.WriteLine("10. Add an Additional Service");
+            Console.WriteLine("10. Add an Additional Service"); //to an existing reservation
             Console.WriteLine("11. Show Reciept");
             Console.WriteLine("12. Reservations History");
             Console.WriteLine("13. Occupancy Rate");
             Console.WriteLine("14. Income Rate");
-            Console.WriteLine("15. Manage a Room's Type"); // Промяна дали стая е нормална, комфортна или кусозна
-            Console.WriteLine("16. Manage a Reservation's Services"); // Добавяне на допълнителна услуга към резервация
+            Console.WriteLine("15. Manage a Room's Type"); // ТОВА ГО МАХАМЕ  заради 2.
+            Console.WriteLine("16. Manage a Reservation's Services"); // Добавяне на допълнителна услуга към списък с услуги - CAN SKIP!!!!!!!
             Console.WriteLine("17. Validate Reservation"); // Проверка дали определена резервация се припокрива с друга резервация за една и съща стая
             Console.WriteLine("18. Show all Guests");
             Console.WriteLine("19. Show Most Popular Rooms");
@@ -242,7 +242,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                 Console.WriteLine("No rooms added yet.\n");
                 return;
             }
-            Console.WriteLine("------ Avaible Rooms: ------");
+            Console.WriteLine("------------------------------------ Avaible Rooms: ----------------------------");
             var avaibleRooms = hotelService.Rooms.Where(r => r.IsFree).ToList();
             if (avaibleRooms.Count == 0)
             {
@@ -253,7 +253,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             {
                 Console.WriteLine($"Id.{room.Id}: Number - {room.RoomNumber}, Floor - {room.Floor}, Capacity - {room.Capacity}, Type - {room.Type}, Price - {room.Price} Euro");
             }
-            Console.WriteLine("---------------------------");
+            Console.WriteLine("--------------------------------------------------------------------------------\n");
         }
 
         private void CalculatePrice()
