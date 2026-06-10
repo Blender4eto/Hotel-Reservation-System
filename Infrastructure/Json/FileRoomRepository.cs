@@ -49,8 +49,7 @@ namespace Hotel_Reservation_System.Infrastructure.Json
                     room.Floor,
                     room.Capacity,
                     room.RoomNumber, 
-                    room.Type,
-                    room.Price
+                    room.Type
                     //,
                     //db.NextId++
                     );

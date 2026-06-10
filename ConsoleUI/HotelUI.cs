@@ -54,9 +54,9 @@ namespace Hotel_Reservation_System.ConsoleUI
                     case "9":
                         break;
                     case "10":
+                        ShowReciept();
                         break;
                     case "11":
-                        ShowReciept();
                         break;
                     case "12":
                         break;
@@ -101,22 +101,22 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("6. Register a Guest");
             Console.WriteLine("7. Move in a Guest");
             Console.WriteLine("8. Move out a Guest");
-            Console.WriteLine("9. Calculate a Price"); // mahame
-            Console.WriteLine("10. Add an Additional Service"); //to an existing reservation
-            Console.WriteLine("11. Show Reciept");
-            Console.WriteLine("12. Reservations History");
-            Console.WriteLine("13. Occupancy Rate");
-            Console.WriteLine("14. Income Rate");
-            Console.WriteLine("15. Manage a Reservation's Services"); // Добавяне на допълнителна услуга към списък с услуги - CAN SKIP!!!!!!!
-            Console.WriteLine("16. Validate Reservation"); // Проверка дали определена резервация се припокрива с друга резервация за една и съща стая
-            Console.WriteLine("17. Show all Guests");
-            Console.WriteLine("18. Show Most Popular Rooms");
-            Console.WriteLine("19. Manage Staff Members");
+            Console.WriteLine("9. Add an Additional Service"); //to an existing reservation
+            Console.WriteLine("10. Show Reciept");
+            Console.WriteLine("11. Reservations History");
+            Console.WriteLine("12. Occupancy Rate");
+            Console.WriteLine("13. Income Rate");
+            Console.WriteLine("14. Manage a Reservation's Services"); // Добавяне на допълнителна услуга към списък с услуги - CAN SKIP!!!!!!!
+            Console.WriteLine("15. Validate Reservation"); // Проверка дали определена резервация се припокрива с друга резервация за една и съща стая
+            Console.WriteLine("16. Show all Guests");
+            Console.WriteLine("17. Show Most Popular Rooms");
+            Console.WriteLine("18. Manage Staff Members");
             Console.WriteLine("0. Exit");
             Console.WriteLine("-----------------------------");
             Console.Write("Choose an option: ");
         }
 
+        //TODO: NEED INPUT VALIDATION
         //1
         private void AddRoom()
         {
@@ -124,13 +124,28 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("------ Adding Room ------");
             Console.WriteLine("Please enter room's");
             Console.Write("number: ");
-            int num = int.Parse(Console.ReadLine());
+            //int num = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int num))
+            {
+                Console.WriteLine("Invalid room number.\n");
+                return;
+            }
 
             Console.Write("floor: ");
-            int floor = int.Parse(Console.ReadLine());
+            //int floor = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int floor))
+            {
+                Console.WriteLine("Invalid floor.\n");
+                return;
+            }
 
             Console.Write("capacity: ");
-            int capacity = int.Parse(Console.ReadLine());
+            //int capacity = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int capacity))
+            {
+                Console.WriteLine("Invalid capacity.\n");
+                return;
+            }
 
             Console.WriteLine("\n------ Types ------");
             Console.WriteLine("0. Standard");
@@ -138,7 +153,12 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("2. Luxury");
             Console.WriteLine("-------------------");
             Console.Write("Please choose a type: ");
-            int typeNum = int.Parse(Console.ReadLine());
+            //int typeNum = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int typeNum) || !Enum.IsDefined(typeof(RoomType), typeNum))
+            {
+                Console.WriteLine("Invalid room type.\n");
+                return;
+            }
 
             var type = (RoomType)typeNum;
 
@@ -166,7 +186,11 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
             PrintRooms();
             Console.Write("Please enter room's id you desire to edit: ");
-            int editRoomId = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int editRoomId))
+            {
+                Console.WriteLine("Invalid room id.\n");
+                return;
+            }
 
             Room room;
             try
@@ -198,15 +222,27 @@ namespace Hotel_Reservation_System.ConsoleUI
             {
                 case "1":
                     Console.Write("Enter new number for the room: ");
-                    roomNumber = int.Parse(Console.ReadLine());
+                    if (!int.TryParse(Console.ReadLine(), out roomNumber))
+                    {
+                        Console.WriteLine("Invalid room number.\n");
+                        return;
+                    }
                     break;
                 case "2":
                     Console.Write("Enter new floor for the room: ");
-                    floor = int.Parse(Console.ReadLine());
+                    if (!int.TryParse(Console.ReadLine(), out floor))
+                    {
+                        Console.WriteLine("Invalid floor.\n");
+                        return;
+                    }
                     break;
                 case "3":
                     Console.Write("Enter new capacity for the room: ");
-                    capacity = int.Parse(Console.ReadLine());
+                    if (!int.TryParse(Console.ReadLine(), out capacity))
+                    {
+                        Console.WriteLine("Invalid capacity.\n");
+                        return;
+                    }
                     break;
                 case "4":
                     Console.WriteLine("\n------ Types ------");
@@ -215,7 +251,11 @@ namespace Hotel_Reservation_System.ConsoleUI
                     Console.WriteLine("2. Luxury");
                     Console.WriteLine("-------------------");
                     Console.Write("Enter new type for the room: ");
-                    int typeNum = int.Parse(Console.ReadLine());
+                    if (!int.TryParse(Console.ReadLine(), out int typeNum) || !Enum.IsDefined(typeof(RoomType), typeNum))
+                    {
+                        Console.WriteLine("Invalid room type.\n");
+                        return;
+                    }
                     type = (RoomType)typeNum;
                     break;
                 default:
@@ -260,12 +300,22 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("--------------------------------------------------------------------------------\n");
         }
 
-        //11
+        //10
         private void ShowReciept()
         {
+            Console.Clear();
+            if (hotelService.Reservations.Count == 0)
+            {
+                Console.WriteLine("No reservations added yet.\n");
+                return;
+            }
             PrintReservations();
             Console.Write("Please choose a reservation for reciept (id):");
-            int choice = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int choice))
+            {
+                Console.WriteLine("Invalid reservation id.\n");
+                return;
+            }
             Console.Clear();
 
             Reservation reservation = null;
@@ -285,6 +335,9 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine($"Days - {reservation.Days}");
             PrintReservationIncludedServices(reservation);
             Console.WriteLine($"Final price - {reservation.FinalPrice}");
+            Console.WriteLine("\nPress Enter to cntinue.");
+            Console.ReadLine();
+            Console.Clear();
         }
 
 

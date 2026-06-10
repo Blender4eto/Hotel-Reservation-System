@@ -22,6 +22,10 @@ namespace Hotel_Reservation_System.Domain.Entities
                 else if (Type == RoomType.Luxury) return 1000m;
                 else return 0m;
             }
+            set
+            {
+
+            }
         }
         public int Id { get; private set; }
 
