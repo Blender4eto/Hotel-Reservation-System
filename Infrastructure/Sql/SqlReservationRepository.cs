@@ -1,6 +1,7 @@
 ﻿using Hotel_Reservation_System.Application.Interfaces;
 using Hotel_Reservation_System.Domain.Entities;
 using Hotel_Reservation_System.Infrastructure.Json;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,19 +20,16 @@ namespace Hotel_Reservation_System.Infrastructure.Sql
         }
         public IReadOnlyList<Reservation> GetReservations()
         {
-            return db.Reservation.ToList();
+            return db.Reservation.Include(r => r.Services).ToList();
         }
         public Reservation GetReservationById(int reservationId)
         {
-            foreach (var reservation in db.Reservation)
-            {
-                if (reservation.Id == reservationId)
-                {
-                    return reservation;
-                }
-            }
-            throw new Exception("Reservation not found");
+            var reservation = db.Reservation
+                .Include(r => r.Services)
+                .FirstOrDefault(r => r.Id == reservationId);
 
+            if (reservation == null) throw new Exception("Reservation not found");
+            return reservation;
         }
         public void AddReservation(Reservation reservation)
         {

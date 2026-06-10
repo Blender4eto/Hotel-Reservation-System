@@ -48,11 +48,27 @@ namespace Hotel_Reservation_System.Application
         {
             return reservationRepository.GetReservations();
         }
-        public Reservation GerReservationById(int id)
+        public Reservation GetReservationById(int id)
         {
             return reservationRepository.GetReservationById(id);
         }
 
+        public void AddServiceToReservation(int reservationId, ServiceType type, int duration)
+        {
+            var reservation = GetReservationById(reservationId);
+
+            var service = new ReservationService
+            {
+                ReservationId = reservationId,
+                Reservation = reservation,
+                Type = type,
+                DurationInDays = duration
+            };
+
+            reservation.AddService(service);
+
+            reservationServiceRepository.AddReservationService(service);
+        }
 
         public void AddGuest(string firstName, string lastName, string phoneNumber)
         {

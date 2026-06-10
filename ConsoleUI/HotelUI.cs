@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -52,6 +53,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                     case "8":
                         break;
                     case "9":
+                        AddServiseToReservation();
                         break;
                     case "10":
                         ShowReciept();
@@ -101,7 +103,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("6. Register a Guest");
             Console.WriteLine("7. Move in a Guest");
             Console.WriteLine("8. Move out a Guest");
-            Console.WriteLine("9. Add an Additional Service"); //to an existing reservation
+            Console.WriteLine("9. Add an Service to Reservation"); //to an existing reservation
             Console.WriteLine("10. Show Reciept");
             Console.WriteLine("11. Reservations History");
             Console.WriteLine("12. Occupancy Rate");
@@ -116,7 +118,6 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Choose an option: ");
         }
 
-        //TODO: NEED INPUT VALIDATION
         //1
         private void AddRoom()
         {
@@ -259,7 +260,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                     type = (RoomType)typeNum;
                     break;
                 default:
-                    Console.WriteLine("Invalid choice. Returning to Menu.");
+                    Console.WriteLine("Invalid choice. Returning to Menu.\n");
                     return;
             }
 
@@ -298,6 +299,63 @@ namespace Hotel_Reservation_System.ConsoleUI
                 Console.WriteLine($"Id.{room.Id}: Number - {room.RoomNumber}, Floor - {room.Floor}, Capacity - {room.Capacity}, Type - {room.Type}, Price - {room.Price} Euro");
             }
             Console.WriteLine("--------------------------------------------------------------------------------\n");
+        }
+
+        private void AddServiseToReservation()
+        {
+            Console.Clear();
+            if (hotelService.Reservations.Count == 0)
+            {
+                Console.WriteLine("No reservations added yet.\n");
+                return;
+            }
+            PrintReservations();
+            Console.Write("Please choose a reservation for reciept (id):");
+            if (!int.TryParse(Console.ReadLine(), out int choice))
+            {
+                Console.WriteLine("Invalid reservation id.\n");
+                return;
+            }
+            Console.Clear();
+
+            Reservation reservation = null;
+            try
+            {
+                reservation = hotelService.GetReservationById(choice);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return;
+            }
+
+            PrintAvailableServices();
+            Console.Write("Choose a service you want to add: ");
+            if (!int.TryParse(Console.ReadLine(), out int serviceId) || !Enum.IsDefined(typeof(ServiceType), serviceId))
+            {
+                Console.WriteLine("Invalid service.\n");
+                return;
+            }
+            ServiceType serviceType = (ServiceType)serviceId;
+
+            Console.Write("Enter number of duration: ");
+            if (!int.TryParse(Console.ReadLine(), out int days))
+            {
+                Console.WriteLine("Invalid input.\n");
+                return;
+            }
+            try
+            {
+                hotelService.AddServiceToReservation(reservation.Id, serviceType, days);
+
+                Console.Clear();
+                Console.WriteLine("Service successfully added to reservation.\n");
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine($"{ex.Message}\n");
+            }
         }
 
         //10
@@ -341,6 +399,8 @@ namespace Hotel_Reservation_System.ConsoleUI
         }
 
 
+
+        //Printing Methods
         private void PrintRooms()
         {
             Console.WriteLine("-------------------------------------- Rooms: ----------------------------------");
@@ -350,7 +410,6 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
             Console.WriteLine("--------------------------------------------------------------------------------\n");
         }
-
         private void PrintReservations()
         {
             Console.WriteLine("-------------------------------------- Reservations: ----------------------------------");
@@ -368,6 +427,18 @@ namespace Hotel_Reservation_System.ConsoleUI
                 Console.WriteLine($"Id: {res.Id},Type - {res.Type}, Duration - {res.DurationInDays} Days, Total price - {res.PricePerDay*res.DurationInDays}");
             }
             Console.WriteLine("-----------------------------------------------------------------------------\n");
+        }
+        private void PrintAvailableServices()
+        {
+            Console.WriteLine("----------------------- Services: -------------------");
+            int id = 0;
+            foreach (ServiceType service in Enum.GetValues(typeof(ServiceType)))
+            {
+                id++;
+                decimal price = new ReservationService{ Type = service }.PricePerDay;
+                Console.WriteLine($"Id - {id},Service - {service}, Price - {price}");
+            }
+            Console.WriteLine("-----------------------------------------------------\n");
         }
     }
 }
