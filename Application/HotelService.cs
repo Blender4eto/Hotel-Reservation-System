@@ -31,16 +31,28 @@ namespace Hotel_Reservation_System.Application
             this.staffRepository = staffRepository;
         }
 
-        public IReadOnlyList<Room> Rooms => GetRooms();
 
+        public IReadOnlyList<Room> Rooms => GetRooms();
         public IReadOnlyList<Room> GetRooms()
         {
             return roomRepository.GetRooms();
         }
         public Room GetRoomById(int id)
         {
-            return roomRepository.GetRooms().FirstOrDefault(r => r.Id == id);
+            return roomRepository.GetRoomById(id);
         }
+
+
+        public IReadOnlyList<Reservation> Reservations => GetReservations();
+        public IReadOnlyList<Reservation> GetReservations()
+        {
+            return reservationRepository.GetReservations();
+        }
+        public Reservation GerReservationById(int id)
+        {
+            return reservationRepository.GetReservationById(id);
+        }
+
 
         public void AddGuest(string firstName, string lastName, string phoneNumber)
         {

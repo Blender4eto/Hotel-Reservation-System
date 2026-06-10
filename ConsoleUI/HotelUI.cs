@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Hotel_Reservation_System.ConsoleUI
 {
@@ -51,11 +52,11 @@ namespace Hotel_Reservation_System.ConsoleUI
                     case "8":
                         break;
                     case "9":
-                        CalculatePrice();
                         break;
                     case "10":
                         break;
                     case "11":
+                        ShowReciept();
                         break;
                     case "12":
                         break;
@@ -100,7 +101,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("6. Register a Guest");
             Console.WriteLine("7. Move in a Guest");
             Console.WriteLine("8. Move out a Guest");
-            Console.WriteLine("9. Calculate a Price");
+            Console.WriteLine("9. Calculate a Price"); // mahame
             Console.WriteLine("10. Add an Additional Service"); //to an existing reservation
             Console.WriteLine("11. Show Reciept");
             Console.WriteLine("12. Reservations History");
@@ -116,6 +117,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Choose an option: ");
         }
 
+        //1
         private void AddRoom()
         {
             Console.Clear();
@@ -153,7 +155,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
         }
 
-        //not ready yet
+        //2
         private void EditRoom()
         {
             Console.Clear();
@@ -223,7 +225,7 @@ namespace Hotel_Reservation_System.ConsoleUI
 
             try
             {
-                hotelService.EditRoom(editRoomId, roomNumber, floor, capacity, type); //it isnt saving, should work if saves are made, not sure how to save
+                hotelService.EditRoom(editRoomId, roomNumber, floor, capacity, type);
                 Console.Clear();
                 Console.WriteLine("Room successfully edited!\n");
             }
@@ -235,6 +237,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
         }
 
+        //3
         private void ShowAvaibleRooms()
         {
             Console.Clear();
@@ -257,10 +260,34 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("--------------------------------------------------------------------------------\n");
         }
 
-        private void CalculatePrice()
+        //11
+        private void ShowReciept()
         {
-            //not sure what to calculate exactly yet
+            PrintReservations();
+            Console.Write("Please choose a reservation for reciept (id):");
+            int choice = int.Parse(Console.ReadLine());
+            Console.Clear();
+
+            Reservation reservation = null;
+            try
+            {
+                reservation = hotelService.GerReservationById(choice);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return;
+            }
+            Console.WriteLine("Reservation details:");
+            Console.WriteLine($"Id - {reservation.Id}");
+            Console.WriteLine($"Guest - {reservation.Guest.FirstName} {reservation.Guest.LastName}");
+            Console.WriteLine($"Room number - {reservation.Room.RoomNumber}");
+            Console.WriteLine($"Days - {reservation.Days}");
+            PrintReservationIncludedServices(reservation);
+            Console.WriteLine($"Final price - {reservation.FinalPrice}");
         }
+
+
         private void PrintRooms()
         {
             Console.WriteLine("-------------------------------------- Rooms: ----------------------------------");
@@ -269,6 +296,25 @@ namespace Hotel_Reservation_System.ConsoleUI
                 Console.WriteLine($"Id.{room.Id}: Number - {room.RoomNumber}, Floor - {room.Floor}, Capacity - {room.Capacity}, Type - {room.Type}, Price - {room.Price} Euro");
             }
             Console.WriteLine("--------------------------------------------------------------------------------\n");
+        }
+
+        private void PrintReservations()
+        {
+            Console.WriteLine("-------------------------------------- Reservations: ----------------------------------");
+            foreach (var res in hotelService.Reservations)
+            {
+                Console.WriteLine($"Id.{res.Id}: Room number - {res.Room.RoomNumber}, Guest - {res.Guest.FirstName} {res.Guest.LastName}, Days - {res.Days}, Price - {res.FinalPrice}");
+            }
+            Console.WriteLine("---------------------------------------------------------------------------------------\n");
+        }
+        private void PrintReservationIncludedServices(Reservation reservation)
+        {
+            Console.WriteLine("----------------------------------- Services: -------------------------------");
+            foreach (var res in reservation.Services)
+            {
+                Console.WriteLine($"Id: {res.Id},Type - {res.Type}, Duration - {res.DurationInDays} Days, Total price - {res.PricePerDay*res.DurationInDays}");
+            }
+            Console.WriteLine("-----------------------------------------------------------------------------\n");
         }
     }
 }
