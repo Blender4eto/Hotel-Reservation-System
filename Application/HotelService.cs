@@ -31,7 +31,7 @@ namespace Hotel_Reservation_System.Application
             this.staffRepository = staffRepository;
         }
 
-
+        //-----------Room related methods and objects-----------
         public IReadOnlyList<Room> Rooms => GetRooms();
         public IReadOnlyList<Room> GetRooms()
         {
@@ -41,18 +41,36 @@ namespace Hotel_Reservation_System.Application
         {
             return roomRepository.GetRoomById(id);
         }
-
-
-        public IReadOnlyList<Reservation> Reservations => GetReservations();
-        public IReadOnlyList<Reservation> GetReservations()
+        public void AddRoom(int roomNumber, int floor, int capacity, RoomType type)
         {
-            return reservationRepository.GetReservations();
+            var room = new Room(roomNumber, floor, capacity, type);
+            roomRepository.AddRoom(room);
         }
-        public Reservation GetReservationById(int id)
+        public void EditRoom(int id, int roomNumber, int floor, int capacity, RoomType type)
         {
-            return reservationRepository.GetReservationById(id);
+            var room = GetRoomById(id);
+            room.EditRoom(roomNumber, floor, capacity, type);
+            roomRepository.UpdateRoom(room);
         }
 
+        //ocupancy in count number
+        public int GetOccupiedRoomsCount()
+        {
+            return Rooms.Count(r => !r.IsFree);
+        }
+
+        //Occupancy rate in percents
+        public decimal GetOccupancyRate()
+        {
+            if (Rooms.Count == 0)
+            {
+                return 0;
+            }
+
+            return (decimal)GetOccupiedRoomsCount() / Rooms.Count * 100;
+        }
+
+        //most popular room
         public IReadOnlyList<PopularRoom> GetMostPopularRooms(int count = 3)
         {
             if (count <= 0)
@@ -81,6 +99,19 @@ namespace Hotel_Reservation_System.Application
                 .ToList();
         }
 
+
+        //-----------Reservations related methods and objects-----------
+        public IReadOnlyList<Reservation> Reservations => GetReservations();
+        public IReadOnlyList<Reservation> GetReservations()
+        {
+            return reservationRepository.GetReservations();
+        }
+        public Reservation GetReservationById(int id)
+        {
+            return reservationRepository.GetReservationById(id);
+        }
+
+        //add service to existing reservation
         public void AddServiceToReservation(int reservationId, ServiceType type, int duration)
         {
             if (duration <= 0)
@@ -103,29 +134,56 @@ namespace Hotel_Reservation_System.Application
             reservationServiceRepository.AddReservationService(service);
         }
 
-        public void AddGuest(string firstName, string lastName, string phoneNumber)
-        {
-            var guest = new Guest(0, firstName, lastName, phoneNumber);
-            guestRepository.Save(guest);
-        }
 
+        //-----------Staff related methods and objects-----------
+        public IReadOnlyList<Staff> GetStaff()
+        {
+            return staffRepository.GetStaff();
+        }
+        public Staff GetStaffById(int id)
+        {
+            return staffRepository.GetStaffById(id);
+        }
         public void AddStaff(string firstName, string lastName, string position)
         {
             var staff = new Staff(0, firstName, lastName, position);
             staffRepository.AddStaff(staff);
         }
-
-        public void AddRoom(int roomNumber, int floor, int capacity, RoomType type)
+        public void EditStaff(int id, string firstName, string lastName, string position)
         {
-            var room = new Room(roomNumber, floor, capacity, type);
-            roomRepository.AddRoom(room);
+            var staff = GetStaffById(id);
+
+            staff.FirstName = firstName;
+            staff.LastName = lastName;
+            staff.Position = position;
+
+            staffRepository.UpdateStaff(staff);
+        }
+        public void RemoveStaff(int id)
+        {
+            var staff = GetStaffById(id);
+            staffRepository.RemoveStaff(staff);
         }
 
-        public void EditRoom(int id, int roomNumber, int floor, int capacity, RoomType type)
+        
+
+        //income rate
+        public decimal GetIncomeRate()
         {
-            var room = GetRoomById(id);
-            room.EditRoom(roomNumber, floor, capacity, type);
-            roomRepository.UpdateRoom(room);
+            decimal income = 0;
+
+            foreach (var reservation in Reservations)
+            {
+                income += reservation.FinalPrice;
+            }
+
+            return income;
+        }
+
+        public void AddGuest(string firstName, string lastName, string phoneNumber)
+        {
+            var guest = new Guest(0, firstName, lastName, phoneNumber);
+            guestRepository.Save(guest);
         }
     }
 }   

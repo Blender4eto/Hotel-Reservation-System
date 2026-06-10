@@ -38,6 +38,41 @@ namespace Hotel_Reservation_System.Infrastructure.Json
         {
             var db = storage.Load();
             db.Staff.Add(staff);
+            storage.Save(db);
+        }
+
+        public void UpdateStaff(Staff staff)
+        {
+            var db = storage.Load();
+
+            for (int i = 0; i < db.Staff.Count; i++)
+            {
+                if (db.Staff[i].Id == staff.Id)
+                {
+                    db.Staff[i] = staff;
+                    storage.Save(db);
+                    return;
+                }
+            }
+
+            throw new Exception("Staff not found");
+        }
+
+        public void RemoveStaff(Staff staff)
+        {
+            var db = storage.Load();
+
+            for (int i = 0; i < db.Staff.Count; i++)
+            {
+                if (db.Staff[i].Id == staff.Id)
+                {
+                    db.Staff.RemoveAt(i);
+                    storage.Save(db);
+                    return;
+                }
+            }
+
+            throw new Exception("Staff not found");
         }
 
     }

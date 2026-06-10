@@ -38,5 +38,16 @@ namespace Hotel_Reservation_System.Infrastructure.Sql
             db.Staffs.Add(staff);
             db.SaveChanges();
         }
+
+        public void UpdateStaff(Staff staff)
+        {
+            db.SaveChanges();
+        }
+
+        public void RemoveStaff(Staff staff)
+        {
+            db.Staffs.Remove(staff);
+            db.SaveChanges();
+        }
     }
 }

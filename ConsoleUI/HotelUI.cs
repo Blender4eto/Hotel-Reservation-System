@@ -61,8 +61,10 @@ namespace Hotel_Reservation_System.ConsoleUI
                     case "11":
                         break;
                     case "12":
+                        ShowOccupancyRate();
                         break;
                     case "13":
+                        ShowIncomeRate();
                         break;
                     case "14":
                         break;
@@ -74,6 +76,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                         ShowMostPopularRooms();
                         break;
                     case "18":
+                        ManageStaffMembers();
                         break;
                     case "19":
                         break;
@@ -302,6 +305,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("--------------------------------------------------------------------------------\n");
         }
 
+        //9
         private void AddServiseToReservation()
         {
             Console.Clear();
@@ -399,11 +403,47 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Clear();
         }
 
+        //12
+        private void ShowOccupancyRate()
+        {
+            Console.Clear();
+            if (hotelService.Rooms.Count == 0)
+            {
+                Console.WriteLine("No rooms added yet.\n");
+                return;
+            }
+
+            int occupiedRooms = hotelService.GetOccupiedRoomsCount();
+            int allRooms = hotelService.Rooms.Count;
+            decimal occupancyRate = hotelService.GetOccupancyRate();
+
+            Console.WriteLine("------ Occupancy Rate ------");
+            Console.WriteLine($"Occupied rooms: {occupiedRooms} / {allRooms}");
+            Console.WriteLine($"Occupancy rate: {occupancyRate:F2}%");
+            Console.WriteLine("----------------------------\n");
+        }
+
+        //13
+        private void ShowIncomeRate()
+        {
+            Console.Clear();
+            if (hotelService.Reservations.Count == 0)
+            {
+                Console.WriteLine("No reservations added yet.\n");
+                return;
+            }
+
+            decimal income = hotelService.GetIncomeRate();
+
+            Console.WriteLine("------ Income Rate ------");
+            Console.WriteLine($"Total income: {income} Euro");
+            Console.WriteLine("-------------------------\n");
+        }
+
         //17
         private void ShowMostPopularRooms()
         {
             Console.Clear();
-
             if (hotelService.Reservations.Count == 0)
             {
                 Console.WriteLine("No reservations added yet.\n");
@@ -427,9 +467,158 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("-------------------------------------------------------------------------\n");
         }
 
+        //18
+        private void ManageStaffMembers()
+        {
+            Console.Clear();
+            Console.WriteLine("------ Manage Staff Members ------");
+            Console.WriteLine("1. Add Staff");
+            Console.WriteLine("2. Edit Staff");
+            Console.WriteLine("3. Remove Staff");
+            Console.WriteLine("----------------------------------");
+            Console.Write("Choose an option: ");
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    AddStaff();
+                    break;
+                case "2":
+                    EditStaff();
+                    break;
+                case "3":
+                    RemoveStaff();
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice.\n");
+                    break;
+            }
+        }
+
+        //18.1
+        private void AddStaff()
+        {
+            Console.Clear();
+            Console.WriteLine("------ Add Staff ------");
+
+            Console.Write("First name: ");
+            string firstName = Console.ReadLine();
+
+            Console.Write("Last name: ");
+            string lastName = Console.ReadLine();
+
+            Console.Write("Position: ");
+            string position = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(position))
+            {
+                Console.WriteLine("Some of fields are incorrect.\n");
+                return;
+            }
+
+            try
+            {
+                hotelService.AddStaff(firstName, lastName, position);
+                Console.Clear();
+                Console.WriteLine("Staff member successfully added.\n");
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine($"{ex.Message}\n");
+            }
+        }
+
+        //18.2
+        private void EditStaff()
+        {
+            Console.Clear();
+            if (hotelService.GetStaff().Count == 0)
+            {
+                Console.WriteLine("No staff members added yet.\n");
+                return;
+            }
+
+            PrintStaff();
+            Console.Write("Please enter staff id you desire to edit: ");
+            if (!int.TryParse(Console.ReadLine(), out int staffId))
+            {
+                Console.WriteLine("Invalid staff id.\n");
+                return;
+            }
+
+            Console.Write("First name: ");
+            string firstName = Console.ReadLine();
+
+            Console.Write("Last name: ");
+            string lastName = Console.ReadLine();
+
+            Console.Write("Position: ");
+            string position = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(position))
+            {
+                Console.WriteLine("Some of fields are incorrect.\n");
+                return;
+            }
+
+            try
+            {
+                hotelService.EditStaff(staffId, firstName, lastName, position);
+                Console.Clear();
+                Console.WriteLine("Staff member successfully edited.\n");
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine($"{ex.Message}\n");
+            }
+        }
+
+        //18.3
+        private void RemoveStaff()
+        {
+            Console.Clear();
+            if (hotelService.GetStaff().Count == 0)
+            {
+                Console.WriteLine("No staff members added yet.\n");
+                return;
+            }
+
+            PrintStaff();
+            Console.Write("Please enter staff id you desire to remove: ");
+            if (!int.TryParse(Console.ReadLine(), out int staffId))
+            {
+                Console.WriteLine("Invalid staff id.\n");
+                return;
+            }
+
+            try
+            {
+                hotelService.RemoveStaff(staffId);
+                Console.Clear();
+                Console.WriteLine("Staff member successfully removed.\n");
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine($"{ex.Message}\n");
+            }
+        }
+
 
 
         //Printing Methods
+        private void PrintStaff()
+        {
+            Console.WriteLine("----------------------- Staff Members: -----------------------");
+            foreach (var staff in hotelService.GetStaff())
+            {
+                Console.WriteLine($"Id.{staff.Id}: {staff.FirstName} {staff.LastName}, Position - {staff.Position}");
+            }
+            Console.WriteLine("--------------------------------------------------------------\n");
+        }
         private void PrintRooms()
         {
             Console.WriteLine("-------------------------------------- Rooms: ----------------------------------");
