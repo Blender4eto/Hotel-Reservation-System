@@ -12,5 +12,6 @@ namespace Hotel_Reservation_System.Application.Interfaces
         IReadOnlyList<Room> GetRooms();
         Room GetRoomById(int roomId);
         void AddRoom(Room room);
+        void UpdateRoom(Room room);
     }
 }

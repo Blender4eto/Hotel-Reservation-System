@@ -46,5 +46,10 @@ namespace Hotel_Reservation_System.Infrastructure.Sql
             db.Rooms.Add(newRoom);
             db.SaveChanges();
         }
+
+        public void UpdateRoom(Room room)
+        {
+            db.SaveChanges();
+        }
     }
 }

@@ -71,6 +71,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                     case "16":
                         break;
                     case "17":
+                        ShowMostPopularRooms();
                         break;
                     case "18":
                         break;
@@ -379,7 +380,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Reservation reservation = null;
             try
             {
-                reservation = hotelService.GerReservationById(choice);
+                reservation = hotelService.GetReservationById(choice);
             }
             catch(Exception ex)
             {
@@ -396,6 +397,34 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("\nPress Enter to cntinue.");
             Console.ReadLine();
             Console.Clear();
+        }
+
+        //17
+        private void ShowMostPopularRooms()
+        {
+            Console.Clear();
+
+            if (hotelService.Reservations.Count == 0)
+            {
+                Console.WriteLine("No reservations added yet.\n");
+                return;
+            }
+
+            var popularRooms = hotelService.GetMostPopularRooms();
+
+            if (popularRooms.Count == 0)
+            {
+                Console.WriteLine("No reserved rooms found.\n");
+                return;
+            }
+
+            Console.WriteLine("-------------------------- Most Popular Rooms: --------------------------");
+            foreach (var popularRoom in popularRooms)
+            {
+                var room = popularRoom.Room;
+                Console.WriteLine($"Id.{room.Id}: Number - {room.RoomNumber}, Floor - {room.Floor}, Capacity - {room.Capacity}, Type - {room.Type}, Reservations - {popularRoom.ReservationCount}");
+            }
+            Console.WriteLine("-------------------------------------------------------------------------\n");
         }
 
 
@@ -434,7 +463,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             int id = 0;
             foreach (ServiceType service in Enum.GetValues(typeof(ServiceType)))
             {
-                id++;
+                id = (int)service;
                 decimal price = new ReservationService{ Type = service }.PricePerDay;
                 Console.WriteLine($"Id - {id},Service - {service}, Price - {price}");
             }

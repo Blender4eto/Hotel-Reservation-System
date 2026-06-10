@@ -20,11 +20,17 @@ namespace Hotel_Reservation_System.Infrastructure.Sql
         }
         public IReadOnlyList<Reservation> GetReservations()
         {
-            return db.Reservation.Include(r => r.Services).ToList();
+            return db.Reservation
+                .Include(r => r.Room)
+                .Include(r => r.Guest)
+                .Include(r => r.Services)
+                .ToList();
         }
         public Reservation GetReservationById(int reservationId)
         {
             var reservation = db.Reservation
+                .Include(r => r.Room)
+                .Include(r => r.Guest)
                 .Include(r => r.Services)
                 .FirstOrDefault(r => r.Id == reservationId);
 

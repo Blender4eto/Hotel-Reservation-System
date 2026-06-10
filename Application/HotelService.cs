@@ -53,8 +53,41 @@ namespace Hotel_Reservation_System.Application
             return reservationRepository.GetReservationById(id);
         }
 
+        public IReadOnlyList<PopularRoom> GetMostPopularRooms(int count = 3)
+        {
+            if (count <= 0)
+            {
+                throw new ArgumentException("Count must be more than 0.");
+            }
+
+            var rooms = GetRooms();
+            var reservations = GetReservations();
+            var popularRooms = new List<PopularRoom>();
+
+            foreach (var room in rooms)
+            {
+                int reservationCount = reservations.Count(r => r.RoomId == room.Id || (r.Room != null && r.Room.Id == room.Id));
+
+                if (reservationCount > 0)
+                {
+                    popularRooms.Add(new PopularRoom(room, reservationCount));
+                }
+            }
+
+            return popularRooms
+                .OrderByDescending(r => r.ReservationCount)
+                .ThenBy(r => r.Room.RoomNumber)
+                .Take(count)
+                .ToList();
+        }
+
         public void AddServiceToReservation(int reservationId, ServiceType type, int duration)
         {
+            if (duration <= 0)
+            {
+                throw new ArgumentException("Duration must be more than 0.");
+            }
+
             var reservation = GetReservationById(reservationId);
 
             var service = new ReservationService
@@ -92,6 +125,7 @@ namespace Hotel_Reservation_System.Application
         {
             var room = GetRoomById(id);
             room.EditRoom(roomNumber, floor, capacity, type);
+            roomRepository.UpdateRoom(room);
         }
     }
 }   

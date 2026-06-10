@@ -75,5 +75,10 @@ namespace Hotel_Reservation_System.Infrastructure.Json
             storage.Save(db);
 
         }
+
+        public void UpdateRoom(Room room)
+        {
+            AddRoom(room);
+        }
     }
 }

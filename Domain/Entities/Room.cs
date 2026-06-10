@@ -87,4 +87,16 @@ namespace Hotel_Reservation_System.Domain.Entities
             this.Type = type;
         }
     }
+
+    public class PopularRoom
+    {
+        public Room Room { get; set; }
+        public int ReservationCount { get; set; }
+
+        public PopularRoom(Room room, int reservationCount)
+        {
+            Room = room;
+            ReservationCount = reservationCount;
+        }
+    }
 }
