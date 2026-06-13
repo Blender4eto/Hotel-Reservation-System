@@ -111,7 +111,20 @@ namespace Hotel_Reservation_System.Application
             return reservationRepository.GetReservationById(id);
         }
 
-        //add service to existing reservation
+      
+        
+        public void AddReservation(Reservation reservation)
+        {
+            if (reservation == null) throw new ArgumentNullException(nameof(reservation));
+            reservationRepository.AddReservation(reservation);
+        }
+
+        public void CancelReservation(int reservationId)
+        {
+            // will throw if not found
+            var reservation = GetReservationById(reservationId);
+            reservationRepository.RemoveReservation(reservationId);
+        }
         public void AddServiceToReservation(int reservationId, ServiceType type, int duration)
         {
             if (duration <= 0)
@@ -179,7 +192,15 @@ namespace Hotel_Reservation_System.Application
 
             return income;
         }
+        public IReadOnlyList<Guest> GetGuests()
+        {
+            return guestRepository.GetAll();
+        }
 
+        public Guest GetGuestById(int id)
+        {
+            return guestRepository.GetById(id);
+        }
         public void AddGuest(string firstName, string lastName, string phoneNumber)
         {
             var guest = new Guest(0, firstName, lastName, phoneNumber);

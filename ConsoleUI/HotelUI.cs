@@ -1,23 +1,14 @@
 ﻿using Hotel_Reservation_System.Application;
-using Hotel_Reservation_System.Application.Interfaces;
 using Hotel_Reservation_System.Domain.Entities;
 using Hotel_Reservation_System.Domain.Enums;
-using Hotel_Reservation_System.Infrastructure.Json;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+using Hotel_Reservation_System.Application;
 
 namespace Hotel_Reservation_System.ConsoleUI
 {
     internal class HotelUI
     {
         private readonly HotelService hotelService;
+
         public HotelUI(HotelService hotelService)
         {
             this.hotelService = hotelService;
@@ -43,8 +34,10 @@ namespace Hotel_Reservation_System.ConsoleUI
                         ShowAvaibleRooms();
                         break;
                     case "4":
+                        MakeReservation();
                         break;
                     case "5":
+                        CancelReservation();
                         break;
                     case "6":
                         break;
@@ -88,6 +81,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                         break;
                     case "0":
                         Console.WriteLine();
+                        isRunning = false;
                         break;
                     default:
                         Console.WriteLine("Invalid Choice");
@@ -95,7 +89,6 @@ namespace Hotel_Reservation_System.ConsoleUI
                 }
             }
         }
-
         public void Menu()
         {
             Console.WriteLine("------ Hotel ------");
@@ -286,7 +279,7 @@ namespace Hotel_Reservation_System.ConsoleUI
         private void ShowAvaibleRooms()
         {
             Console.Clear();
-            if(hotelService.Rooms.Count == 0)
+            if (hotelService.Rooms.Count == 0)
             {
                 Console.WriteLine("No rooms added yet.\n");
                 return;
@@ -305,6 +298,201 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("--------------------------------------------------------------------------------\n");
         }
 
+
+        //4
+        //4
+        private void MakeReservation()
+        {
+            Console.Clear();
+
+            if (hotelService.Rooms.Count == 0)
+            {
+                Console.WriteLine("No rooms available.\n");
+                return;
+            }
+
+            if (hotelService.GetGuests().Count == 0)
+            {
+                Console.WriteLine("No guests available.\n");
+                return;
+            }
+
+            PrintRooms();
+            Console.Write("Room id: ");
+            if (!int.TryParse(Console.ReadLine(), out int roomId))
+            {
+                Console.WriteLine("Invalid room id.\n");
+                return;
+            }
+
+            PrintGuests();
+
+            Console.Write("Guest id: ");
+            if (!int.TryParse(Console.ReadLine(), out int guestId))
+            {
+                Console.WriteLine("Invalid guest id.\n");
+                return;
+            }
+
+            Console.Write("Days: ");
+            if (!int.TryParse(Console.ReadLine(), out int days))
+            {
+                Console.WriteLine("Invalid days.\n");
+                return;
+            }
+
+            try
+            {
+                var room = hotelService.GetRoomById(roomId);
+                var guest = hotelService.GetGuestById(guestId);
+
+                var reservation = new Reservation(room, guest, days, 0)
+                {
+                    RoomId = roomId,
+                    GuestId = guestId
+                };
+
+                hotelService.AddReservation(reservation);
+
+                Console.Clear();
+                Console.WriteLine("Reservation created successfully.\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        //5
+        private void CancelReservation()
+        {
+            Console.Clear();
+
+            if (hotelService.Reservations.Count == 0)
+            {
+                Console.WriteLine("No reservations found.\n");
+                return;
+            }
+
+            PrintReservations();
+
+            Console.Write("Reservation id: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid id.\n");
+                return;
+            }
+
+            try
+            {
+                hotelService.CancelReservation(id);
+
+                Console.Clear();
+                Console.WriteLine("Reservation cancelled.\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
+        //6
+        private void RegisterGuest()
+        {
+            Console.Clear();
+
+            Console.Write("First name: ");
+            string firstName = Console.ReadLine();
+
+            Console.Write("Last name: ");
+            string lastName = Console.ReadLine();
+
+            Console.Write("Phone number: ");
+            string phone = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(firstName) ||
+                string.IsNullOrWhiteSpace(lastName) ||
+                string.IsNullOrWhiteSpace(phone))
+            {
+                Console.WriteLine("Invalid input.\n");
+                return;
+            }
+
+            try
+            {
+                hotelService.AddGuest(firstName, lastName, phone);
+
+                Console.Clear();
+                Console.WriteLine("Guest registered.\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        //7
+        private void MoveInGuest()
+        {
+            Console.Clear();
+
+            PrintReservations();
+
+            Console.Write("Reservation id: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid id.\n");
+                return;
+            }
+
+            try
+            {
+                var reservation = hotelService.GetReservationById(id);
+
+                if (!reservation.Room.IsFree)
+                {
+                    Console.WriteLine("Room already occupied.\n");
+                    return;
+                }
+
+               // reservation.Room.IsFree = false;
+
+                Console.Clear();
+                Console.WriteLine("Guest checked in.\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        //8
+        private void MoveOutGuest()
+        {
+            Console.Clear();
+
+            PrintReservations();
+
+            Console.Write("Reservation id: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid id.\n");
+                return;
+            }
+
+            try
+            {
+                var reservation = hotelService.GetReservationById(id);
+
+               // reservation.Room.IsFree = true;
+
+                Console.Clear();
+                Console.WriteLine("Guest checked out.\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
         //9
         private void AddServiseToReservation()
         {
@@ -386,7 +574,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             {
                 reservation = hotelService.GetReservationById(choice);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return;
@@ -402,7 +590,31 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.ReadLine();
             Console.Clear();
         }
+        //11
+        private void ShowReservationHistory()
+        {
+            Console.Clear();
 
+            var reservations = hotelService.Reservations;
+
+            if (reservations.Count == 0)
+            {
+                Console.WriteLine("No reservations.\n");
+                return;
+            }
+
+            Console.WriteLine("------ History ------");
+
+            foreach (var r in reservations)
+            {
+                Console.WriteLine(
+                    $"Id.{r.Id}: Room {r.Room.RoomNumber}, " +
+                    $"Guest {r.Guest.FirstName} {r.Guest.LastName}, " +
+                    $"Days {r.Days}, Price {r.FinalPrice}");
+            }
+
+            Console.WriteLine("---------------------\n");
+        }
         //12
         private void ShowOccupancyRate()
         {
@@ -440,6 +652,76 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("-------------------------\n");
         }
 
+        //14
+        private void ManageReservationServices()
+        {
+            Console.Clear();
+
+            Console.WriteLine("1. Add service");
+            Console.WriteLine("2. Back");
+
+            string choice = Console.ReadLine();
+
+            if (choice == "1")
+            {
+                AddServiseToReservation();
+            }
+        }
+        //15
+        private void ValidateReservation()
+        {
+            Console.Clear();
+
+            PrintReservations();
+
+            Console.Write("Reservation id: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid id.\n");
+                return;
+            }
+
+            try
+            {
+                var reservation = hotelService.GetReservationById(id);
+
+                if (reservation.Room.IsFree)
+                {
+                    Console.WriteLine("Reservation is valid.");
+                }
+                else
+                {
+                    Console.WriteLine("Room is currently occupied.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        //16
+        private void ShowAllGuests()
+        {
+            Console.Clear();
+
+            var guests = hotelService.GetGuests();
+
+            if (guests.Count == 0)
+            {
+                Console.WriteLine("No guests.\n");
+                return;
+            }
+
+            Console.WriteLine("------ Guests ------");
+
+            foreach (var g in guests)
+            {
+                Console.WriteLine($"Id.{g.Id}: {g.FirstName} {g.LastName}");
+            }
+
+            Console.WriteLine("--------------------\n");
+        }
         //17
         private void ShowMostPopularRooms()
         {
@@ -642,7 +924,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("----------------------------------- Services: -------------------------------");
             foreach (var res in reservation.Services)
             {
-                Console.WriteLine($"Id: {res.Id},Type - {res.Type}, Duration - {res.DurationInDays} Days, Total price - {res.PricePerDay*res.DurationInDays}");
+                Console.WriteLine($"Id: {res.Id},Type - {res.Type}, Duration - {res.DurationInDays} Days, Total price - {res.PricePerDay * res.DurationInDays}");
             }
             Console.WriteLine("-----------------------------------------------------------------------------\n");
         }
@@ -653,10 +935,21 @@ namespace Hotel_Reservation_System.ConsoleUI
             foreach (ServiceType service in Enum.GetValues(typeof(ServiceType)))
             {
                 id = (int)service;
-                decimal price = new ReservationService{ Type = service }.PricePerDay;
+                decimal price = new ReservationService { Type = service }.PricePerDay;
                 Console.WriteLine($"Id - {id},Service - {service}, Price - {price}");
             }
             Console.WriteLine("-----------------------------------------------------\n");
         }
+        private void PrintGuests()
+        {
+            Console.WriteLine("----------------------- Guests: -----------------------");
+            foreach (var guest in hotelService.GetGuests())
+            {
+                Console.WriteLine($"Id.{guest.Id}: {guest.FirstName} {guest.LastName}, Phone - {guest.PhoneNumber}");
+            }
+            Console.WriteLine("-------------------------------------------------------\n");
+        }
     }
 }
+
+

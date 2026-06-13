@@ -42,6 +42,13 @@ namespace Hotel_Reservation_System.Infrastructure.Json
             var db = storage.Load();
             db.Reservations.Add(reservation);
         }
-
+        public void RemoveReservation(int reservationId)
+        {
+            var db = storage.Load();
+            var existing = db.Reservations.FirstOrDefault(r => r.Id == reservationId);
+            if (existing == null) throw new Exception("Reservation not found");
+            db.Reservations.Remove(existing);
+            storage.Save(db);
+        }
     }
 }

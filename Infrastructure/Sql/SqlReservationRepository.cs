@@ -42,5 +42,12 @@ namespace Hotel_Reservation_System.Infrastructure.Sql
             db.Reservation.Add(reservation);
             db.SaveChanges();
         }
+
+        public void RemoveReservation(int reservationId)
+        {
+            var reservation = GetReservationById(reservationId);
+            db.Reservation.Remove(reservation);
+            db.SaveChanges();
+        }
     }
 }
