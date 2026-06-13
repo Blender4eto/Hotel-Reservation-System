@@ -111,8 +111,33 @@ namespace Hotel_Reservation_System.Application
             return reservationRepository.GetReservationById(id);
         }
 
-      
-        
+        public void CheckIn(int reservationId)
+        {
+            var reservation = GetReservationById(reservationId) ?? throw new Exception("Reservation not found.");
+            var room = reservation.Room ?? GetRoomById(reservation.RoomId);
+
+            if (room == null) throw new Exception("Room not found for reservation.");
+
+            if (!room.AddGuest(reservation.Guest))
+            {
+                throw new InvalidOperationException("Cannot check in: room capacity reached.");
+            }
+
+            roomRepository.UpdateRoom(room);
+        }
+
+        public void CheckOut(int reservationId)
+        {
+            var reservation = GetReservationById(reservationId) ?? throw new Exception("Reservation not found.");
+            var room = reservation.Room ?? GetRoomById(reservation.RoomId);
+
+            if (room == null) throw new Exception("Room not found for reservation.");
+
+            else { room.RemoveGuest(reservation.Guest); }
+               
+        }
+  
+
         public void AddReservation(Reservation reservation)
         {
             if (reservation == null) throw new ArgumentNullException(nameof(reservation));

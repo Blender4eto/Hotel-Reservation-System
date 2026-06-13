@@ -363,6 +363,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
         }
 
+        
         //5
         private void CancelReservation()
         {
@@ -395,8 +396,6 @@ namespace Hotel_Reservation_System.ConsoleUI
                 Console.WriteLine(ex.Message);
             }
         }
-
-
         //6
         private void RegisterGuest()
         {
@@ -409,22 +408,19 @@ namespace Hotel_Reservation_System.ConsoleUI
             string lastName = Console.ReadLine();
 
             Console.Write("Phone number: ");
-            string phone = Console.ReadLine();
+            string phoneNumber = Console.ReadLine();
 
-            if (string.IsNullOrWhiteSpace(firstName) ||
-                string.IsNullOrWhiteSpace(lastName) ||
-                string.IsNullOrWhiteSpace(phone))
+            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(phoneNumber))
             {
-                Console.WriteLine("Invalid input.\n");
+                Console.WriteLine("Invalid guest data.\n");
                 return;
             }
 
             try
             {
-                hotelService.AddGuest(firstName, lastName, phone);
-
+                hotelService.AddGuest(firstName, lastName,phoneNumber);
                 Console.Clear();
-                Console.WriteLine("Guest registered.\n");
+                Console.WriteLine("Guest registered successfully.\n");
             }
             catch (Exception ex)
             {
@@ -455,7 +451,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                     return;
                 }
 
-               // reservation.Room.IsFree = false;
+                hotelService.CheckIn(id);
 
                 Console.Clear();
                 Console.WriteLine("Guest checked in.\n");
@@ -465,6 +461,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                 Console.WriteLine(ex.Message);
             }
         }
+       
         //8
         private void MoveOutGuest()
         {
@@ -481,9 +478,7 @@ namespace Hotel_Reservation_System.ConsoleUI
 
             try
             {
-                var reservation = hotelService.GetReservationById(id);
-
-               // reservation.Room.IsFree = true;
+                hotelService.CheckOut(id);
 
                 Console.Clear();
                 Console.WriteLine("Guest checked out.\n");
