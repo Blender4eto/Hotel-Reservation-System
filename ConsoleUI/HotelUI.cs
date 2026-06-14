@@ -41,10 +41,13 @@ namespace Hotel_Reservation_System.ConsoleUI
                         CancelReservation();
                         break;
                     case "6":
+                        RegisterGuest();
                         break;
                     case "7":
+                        MoveInGuest();
                         break;
                     case "8":
+                        MoveOutGuest();
                         break;
                     case "9":
                         AddServiseToReservation();
@@ -53,6 +56,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                         ShowReciept();
                         break;
                     case "11":
+                        ShowReservationHistory();
                         break;
                     case "12":
                         ShowOccupancyRate();
@@ -61,24 +65,19 @@ namespace Hotel_Reservation_System.ConsoleUI
                         ShowIncomeRate();
                         break;
                     case "14":
+                        ManageReservationServices();
                         break;
                     case "15":
+                        ValidateReservation();
                         break;
                     case "16":
+                        ShowAllGuests();
                         break;
                     case "17":
                         ShowMostPopularRooms();
                         break;
                     case "18":
                         ManageStaffMembers();
-                        break;
-                    case "19":
-                        break;
-                    case "20":
-                        break;
-                    case "21":
-                        break;
-                    case "22":
                         break;
                     case "0":
                         Console.WriteLine();
