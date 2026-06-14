@@ -299,8 +299,6 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("--------------------------------------------------------------------------------\n");
         }
 
-
-        //4
         //4
         private void MakeReservation()
         {
