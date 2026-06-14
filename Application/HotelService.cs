@@ -182,9 +182,9 @@ namespace Hotel_Reservation_System.Application
         {
             return staffRepository.GetStaffById(id);
         }
-        public void AddStaff(string firstName, string lastName, string position)
+        public void AddStaff(string firstName, string lastName, string position,int phoneNumber)
         {
-            var staff = new Staff(0, firstName, lastName, position);
+            var staff = new Staff(0, firstName, lastName, position,phoneNumber);
             staffRepository.AddStaff(staff);
         }
         public void EditStaff(int id, string firstName, string lastName, string position)
@@ -226,7 +226,7 @@ namespace Hotel_Reservation_System.Application
         {
             return guestRepository.GetById(id);
         }
-        public void AddGuest(string firstName, string lastName, string phoneNumber)
+        public void AddGuest(string firstName, string lastName, int phoneNumber)
         {
             var guest = new Guest(0, firstName, lastName, phoneNumber);
             guestRepository.Save(guest);

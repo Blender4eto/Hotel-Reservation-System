@@ -2,6 +2,7 @@
 using Hotel_Reservation_System.Domain.Entities;
 using Hotel_Reservation_System.Domain.Enums;
 using Hotel_Reservation_System.Application;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Hotel_Reservation_System.ConsoleUI
 {
@@ -400,6 +401,7 @@ namespace Hotel_Reservation_System.ConsoleUI
         private void RegisterGuest()
         {
             Console.Clear();
+            Console.WriteLine("------ Add Guest ------");
 
             Console.Write("First name: ");
             string firstName = Console.ReadLine();
@@ -408,23 +410,24 @@ namespace Hotel_Reservation_System.ConsoleUI
             string lastName = Console.ReadLine();
 
             Console.Write("Phone number: ");
-            string phoneNumber = Console.ReadLine();
+             int PhoneNumber = Console.Read();
 
-            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(phoneNumber))
+            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || int.IsNegative(PhoneNumber))
             {
-                Console.WriteLine("Invalid guest data.\n");
+                Console.WriteLine("Some of fields are incorrect.\n");
                 return;
             }
 
             try
             {
-                hotelService.AddGuest(firstName, lastName,phoneNumber);
+                hotelService.AddGuest(firstName, lastName, PhoneNumber);
                 Console.Clear();
-                Console.WriteLine("Guest registered successfully.\n");
+                Console.WriteLine("Staff member successfully added.\n");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.Clear();
+                Console.WriteLine($"{ex.Message}\n");
             }
         }
         //7
@@ -788,7 +791,10 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Position: ");
             string position = Console.ReadLine();
 
-            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(position))
+            Console.Write("Phone number: ");
+            int phoneNumber = Console.Read();
+
+            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(position)|| int.IsNegative(phoneNumber))
             {
                 Console.WriteLine("Some of fields are incorrect.\n");
                 return;
@@ -796,7 +802,7 @@ namespace Hotel_Reservation_System.ConsoleUI
 
             try
             {
-                hotelService.AddStaff(firstName, lastName, position);
+                hotelService.AddStaff(firstName, lastName, position,phoneNumber);
                 Console.Clear();
                 Console.WriteLine("Staff member successfully added.\n");
             }

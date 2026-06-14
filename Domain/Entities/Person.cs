@@ -11,7 +11,7 @@ namespace Hotel_Reservation_System.Domain.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public int phoneNumber{ get; set; }
+        public int PhoneNumber{ get; set; }
         public int Id { get; set; }
 
         public Person()
@@ -23,7 +23,7 @@ namespace Hotel_Reservation_System.Domain.Entities
             this.FirstName = firstName;
             this.LastName = lastName;
             Id = id;
-            this.phoneNumber = phoneNumber;
+            this.PhoneNumber = phoneNumber;
         }
     }
 }

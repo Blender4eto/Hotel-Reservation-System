@@ -10,11 +10,13 @@ namespace Hotel_Reservation_System.Domain.Entities
     {
         public string Position { get; set; }
         public int StaffId { get; set; }
+
+ 
         public Staff()
         {
 
         }
-        public Staff(int staffId, string firstName, string lastName, string position) : base (firstName, lastName, staffId)
+        public Staff(int staffId, string firstName, string lastName, string position,int phoneNumber) : base (firstName, lastName, staffId,phoneNumber)
         {
             this.Position = position;
             this.StaffId = staffId;
