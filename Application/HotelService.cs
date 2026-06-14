@@ -182,9 +182,9 @@ namespace Hotel_Reservation_System.Application
         {
             return staffRepository.GetStaffById(id);
         }
-        public void AddStaff(string firstName, string lastName, string position,int phoneNumber)
+        public void AddStaff(string firstName, string lastName, string position)
         {
-            var staff = new Staff(0, firstName, lastName, position,phoneNumber);
+            var staff = new Staff(0, firstName, lastName, position);
             staffRepository.AddStaff(staff);
         }
         public void EditStaff(int id, string firstName, string lastName, string position)

@@ -1,8 +1,6 @@
-﻿using Hotel_Reservation_System.Application;
+using Hotel_Reservation_System.Application;
 using Hotel_Reservation_System.Domain.Entities;
 using Hotel_Reservation_System.Domain.Enums;
-using Hotel_Reservation_System.Application;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Hotel_Reservation_System.ConsoleUI
 {
@@ -23,69 +21,76 @@ namespace Hotel_Reservation_System.ConsoleUI
                 Menu();
                 var input = Console.ReadLine();
 
-                switch (input)
+                try
                 {
-                    case "1":
-                        AddRoom();
-                        break;
-                    case "2":
-                        EditRoom();
-                        break;
-                    case "3":
-                        ShowAvaibleRooms();
-                        break;
-                    case "4":
-                        MakeReservation();
-                        break;
-                    case "5":
-                        CancelReservation();
-                        break;
-                    case "6":
-                        RegisterGuest();
-                        break;
-                    case "7":
-                        MoveInGuest();
-                        break;
-                    case "8":
-                        MoveOutGuest();
-                        break;
-                    case "9":
-                        AddServiseToReservation();
-                        break;
-                    case "10":
-                        ShowReciept();
-                        break;
-                    case "11":
-                        ShowReservationHistory();
-                        break;
-                    case "12":
-                        ShowOccupancyRate();
-                        break;
-                    case "13":
-                        ShowIncomeRate();
-                        break;
-                    case "14":
-                        ManageReservationServices();
-                        break;
-                    case "15":
-                        ValidateReservation();
-                        break;
-                    case "16":
-                        ShowAllGuests();
-                        break;
-                    case "17":
-                        ShowMostPopularRooms();
-                        break;
-                    case "18":
-                        ManageStaffMembers();
-                        break;
-                    case "0":
-                        Console.WriteLine();
-                        isRunning = false;
-                        break;
-                    default:
-                        Console.WriteLine("Invalid Choice");
-                        break;
+                    switch (input)
+                    {
+                        case "1":
+                            AddRoom();
+                            break;
+                        case "2":
+                            EditRoom();
+                            break;
+                        case "3":
+                            ShowAvaibleRooms();
+                            break;
+                        case "4":
+                            MakeReservation();
+                            break;
+                        case "5":
+                            CancelReservation();
+                            break;
+                        case "6":
+                            RegisterGuest();
+                            break;
+                        case "7":
+                            MoveInGuest();
+                            break;
+                        case "8":
+                            MoveOutGuest();
+                            break;
+                        case "9":
+                            AddServiseToReservation();
+                            break;
+                        case "10":
+                            ShowReciept();
+                            break;
+                        case "11":
+                            ShowReservationHistory();
+                            break;
+                        case "12":
+                            ShowOccupancyRate();
+                            break;
+                        case "13":
+                            ShowIncomeRate();
+                            break;
+                        case "14":
+                            ManageReservationServices();
+                            break;
+                        case "15":
+                            ValidateReservation();
+                            break;
+                        case "16":
+                            ShowAllGuests();
+                            break;
+                        case "17":
+                            ShowMostPopularRooms();
+                            break;
+                        case "18":
+                            ManageStaffMembers();
+                            break;
+                        case "0":
+                            Console.WriteLine();
+                            isRunning = false;
+                            break;
+                        default:
+                            Console.WriteLine("Invalid Choice");
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Operation failed: {ex.Message}\n");
                 }
             }
         }
@@ -125,6 +130,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             //int num = int.Parse(Console.ReadLine());
             if (!int.TryParse(Console.ReadLine(), out int num))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid room number.\n");
                 return;
             }
@@ -133,6 +139,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             //int floor = int.Parse(Console.ReadLine());
             if (!int.TryParse(Console.ReadLine(), out int floor))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid floor.\n");
                 return;
             }
@@ -141,6 +148,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             //int capacity = int.Parse(Console.ReadLine());
             if (!int.TryParse(Console.ReadLine(), out int capacity))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid capacity.\n");
                 return;
             }
@@ -154,6 +162,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             //int typeNum = int.Parse(Console.ReadLine());
             if (!int.TryParse(Console.ReadLine(), out int typeNum) || !Enum.IsDefined(typeof(RoomType), typeNum))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid room type.\n");
                 return;
             }
@@ -179,6 +188,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Clear();
             if (hotelService.Rooms.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No rooms added yet.\n");
                 return;
             }
@@ -186,6 +196,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Please enter room's id you desire to edit: ");
             if (!int.TryParse(Console.ReadLine(), out int editRoomId))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid room id.\n");
                 return;
             }
@@ -222,6 +233,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                     Console.Write("Enter new number for the room: ");
                     if (!int.TryParse(Console.ReadLine(), out roomNumber))
                     {
+                        Console.Clear();
                         Console.WriteLine("Invalid room number.\n");
                         return;
                     }
@@ -230,6 +242,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                     Console.Write("Enter new floor for the room: ");
                     if (!int.TryParse(Console.ReadLine(), out floor))
                     {
+                        Console.Clear();
                         Console.WriteLine("Invalid floor.\n");
                         return;
                     }
@@ -238,6 +251,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                     Console.Write("Enter new capacity for the room: ");
                     if (!int.TryParse(Console.ReadLine(), out capacity))
                     {
+                        Console.Clear();
                         Console.WriteLine("Invalid capacity.\n");
                         return;
                     }
@@ -251,6 +265,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                     Console.Write("Enter new type for the room: ");
                     if (!int.TryParse(Console.ReadLine(), out int typeNum) || !Enum.IsDefined(typeof(RoomType), typeNum))
                     {
+                        Console.Clear();
                         Console.WriteLine("Invalid room type.\n");
                         return;
                     }
@@ -305,12 +320,14 @@ namespace Hotel_Reservation_System.ConsoleUI
 
             if (hotelService.Rooms.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No rooms available.\n");
                 return;
             }
 
             if (hotelService.GetGuests().Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No guests available.\n");
                 return;
             }
@@ -319,6 +336,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Room id: ");
             if (!int.TryParse(Console.ReadLine(), out int roomId))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid room id.\n");
                 return;
             }
@@ -328,6 +346,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Guest id: ");
             if (!int.TryParse(Console.ReadLine(), out int guestId))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid guest id.\n");
                 return;
             }
@@ -335,6 +354,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Days: ");
             if (!int.TryParse(Console.ReadLine(), out int days))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid days.\n");
                 return;
             }
@@ -347,7 +367,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                 var reservation = new Reservation(room, guest, days, 0)
                 {
                     RoomId = roomId,
-                    GuestId = guestId
+                    GuestId = guest.Id
                 };
 
                 hotelService.AddReservation(reservation);
@@ -360,7 +380,6 @@ namespace Hotel_Reservation_System.ConsoleUI
                 Console.WriteLine(ex.Message);
             }
         }
-
         
         //5
         private void CancelReservation()
@@ -378,6 +397,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Reservation id: ");
             if (!int.TryParse(Console.ReadLine(), out int id))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid id.\n");
                 return;
             }
@@ -391,9 +411,11 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
             catch (Exception ex)
             {
+                Console.Clear();
                 Console.WriteLine(ex.Message);
             }
         }
+
         //6
         private void RegisterGuest()
         {
@@ -407,10 +429,17 @@ namespace Hotel_Reservation_System.ConsoleUI
             string lastName = Console.ReadLine();
 
             Console.Write("Phone number: ");
-             int PhoneNumber = Console.Read();
-
-            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || int.IsNegative(PhoneNumber))
+            string phoneInput = Console.ReadLine();
+            if (phoneInput == null || phoneInput.Length != 10 || !phoneInput.All(char.IsDigit) || !int.TryParse(phoneInput, out int PhoneNumber))
             {
+                Console.Clear();
+                Console.WriteLine("Phone number must be exactly 10 digits.\n");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
+            {
+                Console.Clear();
                 Console.WriteLine("Some of fields are incorrect.\n");
                 return;
             }
@@ -419,7 +448,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             {
                 hotelService.AddGuest(firstName, lastName, PhoneNumber);
                 Console.Clear();
-                Console.WriteLine("Staff member successfully added.\n");
+                Console.WriteLine("Guest successfully registered.\n");
             }
             catch (Exception ex)
             {
@@ -427,6 +456,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                 Console.WriteLine($"{ex.Message}\n");
             }
         }
+
         //7
         private void MoveInGuest()
         {
@@ -437,6 +467,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Reservation id: ");
             if (!int.TryParse(Console.ReadLine(), out int id))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid id.\n");
                 return;
             }
@@ -458,6 +489,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
             catch (Exception ex)
             {
+                Console.Clear();
                 Console.WriteLine(ex.Message);
             }
         }
@@ -472,6 +504,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Reservation id: ");
             if (!int.TryParse(Console.ReadLine(), out int id))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid id.\n");
                 return;
             }
@@ -485,15 +518,18 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
             catch (Exception ex)
             {
+                Console.Clear();
                 Console.WriteLine(ex.Message);
             }
         }
+
         //9
         private void AddServiseToReservation()
         {
             Console.Clear();
             if (hotelService.Reservations.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No reservations added yet.\n");
                 return;
             }
@@ -501,6 +537,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Please choose a reservation for reciept (id):");
             if (!int.TryParse(Console.ReadLine(), out int choice))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid reservation id.\n");
                 return;
             }
@@ -513,6 +550,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
             catch (Exception ex)
             {
+                Console.Clear();
                 Console.WriteLine(ex.Message);
                 return;
             }
@@ -521,6 +559,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Choose a service you want to add: ");
             if (!int.TryParse(Console.ReadLine(), out int serviceId) || !Enum.IsDefined(typeof(ServiceType), serviceId))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid service.\n");
                 return;
             }
@@ -529,6 +568,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Enter number of duration: ");
             if (!int.TryParse(Console.ReadLine(), out int days))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid input.\n");
                 return;
             }
@@ -552,6 +592,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Clear();
             if (hotelService.Reservations.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No reservations added yet.\n");
                 return;
             }
@@ -559,6 +600,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Please choose a reservation for reciept (id):");
             if (!int.TryParse(Console.ReadLine(), out int choice))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid reservation id.\n");
                 return;
             }
@@ -571,6 +613,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
             catch (Exception ex)
             {
+                Console.Clear();
                 Console.WriteLine(ex.Message);
                 return;
             }
@@ -585,6 +628,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.ReadLine();
             Console.Clear();
         }
+
         //11
         private void ShowReservationHistory()
         {
@@ -594,6 +638,7 @@ namespace Hotel_Reservation_System.ConsoleUI
 
             if (reservations.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No reservations.\n");
                 return;
             }
@@ -610,6 +655,7 @@ namespace Hotel_Reservation_System.ConsoleUI
 
             Console.WriteLine("---------------------\n");
         }
+
         //12
         private void ShowOccupancyRate()
         {
@@ -662,6 +708,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                 AddServiseToReservation();
             }
         }
+
         //15
         private void ValidateReservation()
         {
@@ -672,6 +719,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Reservation id: ");
             if (!int.TryParse(Console.ReadLine(), out int id))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid id.\n");
                 return;
             }
@@ -682,15 +730,18 @@ namespace Hotel_Reservation_System.ConsoleUI
 
                 if (reservation.Room.IsFree)
                 {
+                    Console.Clear();
                     Console.WriteLine("Reservation is valid.");
                 }
                 else
                 {
+                    Console.Clear();
                     Console.WriteLine("Room is currently occupied.");
                 }
             }
             catch (Exception ex)
             {
+                Console.Clear();
                 Console.WriteLine(ex.Message);
             }
         }
@@ -704,6 +755,7 @@ namespace Hotel_Reservation_System.ConsoleUI
 
             if (guests.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No guests.\n");
                 return;
             }
@@ -717,12 +769,14 @@ namespace Hotel_Reservation_System.ConsoleUI
 
             Console.WriteLine("--------------------\n");
         }
+
         //17
         private void ShowMostPopularRooms()
         {
             Console.Clear();
             if (hotelService.Reservations.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No reservations added yet.\n");
                 return;
             }
@@ -731,6 +785,7 @@ namespace Hotel_Reservation_System.ConsoleUI
 
             if (popularRooms.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No reserved rooms found.\n");
                 return;
             }
@@ -768,6 +823,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                     RemoveStaff();
                     break;
                 default:
+                    Console.Clear();
                     Console.WriteLine("Invalid choice.\n");
                     break;
             }
@@ -788,18 +844,16 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Position: ");
             string position = Console.ReadLine();
 
-            Console.Write("Phone number: ");
-            int phoneNumber = Console.Read();
-
-            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(position)|| int.IsNegative(phoneNumber))
+            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(position))
             {
+                Console.Clear();
                 Console.WriteLine("Some of fields are incorrect.\n");
                 return;
             }
 
             try
             {
-                hotelService.AddStaff(firstName, lastName, position,phoneNumber);
+                hotelService.AddStaff(firstName, lastName, position);
                 Console.Clear();
                 Console.WriteLine("Staff member successfully added.\n");
             }
@@ -816,6 +870,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Clear();
             if (hotelService.GetStaff().Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No staff members added yet.\n");
                 return;
             }
@@ -824,6 +879,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Please enter staff id you desire to edit: ");
             if (!int.TryParse(Console.ReadLine(), out int staffId))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid staff id.\n");
                 return;
             }
@@ -839,6 +895,7 @@ namespace Hotel_Reservation_System.ConsoleUI
 
             if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(position))
             {
+                Console.Clear();
                 Console.WriteLine("Some of fields are incorrect.\n");
                 return;
             }
@@ -862,6 +919,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Clear();
             if (hotelService.GetStaff().Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No staff members added yet.\n");
                 return;
             }
@@ -870,6 +928,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Write("Please enter staff id you desire to remove: ");
             if (!int.TryParse(Console.ReadLine(), out int staffId))
             {
+                Console.Clear();
                 Console.WriteLine("Invalid staff id.\n");
                 return;
             }

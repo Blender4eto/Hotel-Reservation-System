@@ -14,7 +14,7 @@ namespace Hotel_Reservation_System.ConsoleUI
         {
             var storage = new FileStorage("hotel.json");
             //Преси, смени си стринга на твойя, като го ползваш
-            var options = new DbContextOptionsBuilder<AppDbContext>().UseSqlServer("Data Source=BLENDERTOP\\SQLEXPRESS;Database=CodeFirstDb;Integrated Security=True;TrustServerCertificate=True;").EnableSensitiveDataLogging().Options;
+            var options = new DbContextOptionsBuilder<AppDbContext>().UseSqlServer("Data Source=BLENDERTOP\\SQLEXPRESS;Database=CodeFirstDb1;Integrated Security=True;TrustServerCertificate=True;Encrypt=False;").EnableSensitiveDataLogging().Options;
             var db = new AppDbContext(options);
 
             IGuestRepository guestRepo = new SqlGuestRepository(db);

@@ -25,7 +25,7 @@ namespace Hotel_Reservation_System.Infrastructure.Sql
         {
             foreach (var guests in db.Guests)
             {
-                if (guests.GuestId == id)
+                if (guests.Id == id)
                 {
                     return guests;
                 }
@@ -34,12 +34,13 @@ namespace Hotel_Reservation_System.Infrastructure.Sql
         }
         public void Save(Guest guest)
         {
-            var newGuest = new Guest(
-                    db.Guests.ToList().Count > 0 ? db.Guests.Max(g => g.GuestId) + 1 : 1,
-                    guest.FirstName,
-                    guest.LastName,
-                    guest.PhoneNumber
-                );
+            var newGuest = new Guest
+            {
+                GuestId = db.Guests.Any() ? db.Guests.Max(g => g.GuestId) + 1 : 1,
+                FirstName = guest.FirstName,
+                LastName = guest.LastName,
+                PhoneNumber = guest.PhoneNumber
+            };
             db.Guests.Add(newGuest);
             db.SaveChanges();
         }

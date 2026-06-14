@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel_Reservation_System.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260604110758_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20260614155819_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,7 +86,7 @@ namespace Hotel_Reservation_System.Migrations
                     b.Property<int>("DurationInDays")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ReservationId")
+                    b.Property<int>("ReservationId")
                         .HasColumnType("int");
 
                     b.Property<int>("Type")
@@ -134,10 +134,8 @@ namespace Hotel_Reservation_System.Migrations
                     b.Property<int>("GuestId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("nvarchar(14)");
+                    b.Property<int>("PhoneNumber")
+                        .HasColumnType("int");
 
                     b.Property<int?>("RoomId")
                         .HasColumnType("int");
@@ -183,9 +181,13 @@ namespace Hotel_Reservation_System.Migrations
 
             modelBuilder.Entity("Hotel_Reservation_System.Domain.Entities.ReservationService", b =>
                 {
-                    b.HasOne("Hotel_Reservation_System.Domain.Entities.Reservation", null)
+                    b.HasOne("Hotel_Reservation_System.Domain.Entities.Reservation", "Reservation")
                         .WithMany("Services")
-                        .HasForeignKey("ReservationId");
+                        .HasForeignKey("ReservationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Reservation");
                 });
 
             modelBuilder.Entity("Hotel_Reservation_System.Domain.Entities.Guest", b =>

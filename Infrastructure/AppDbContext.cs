@@ -20,7 +20,12 @@ namespace Hotel_Reservation_System.Infrastructure
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Data Source=BLENDERTOP\\SQLEXPRESS;Database=CodeFirstDb;Integrated Security=True;TrustServerCertificate=True;");
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source=BLENDERTOP\\SQLEXPRESS;Database=CodeFirstDb1;Integrated Security=True;TrustServerCertificate=True;Encrypt=False;");
+            }
+        }
 
 
         public DbSet<Guest> Guests { get; set; }
@@ -58,7 +63,7 @@ namespace Hotel_Reservation_System.Infrastructure
                       .HasMaxLength(50);
 
                 entity.Property(g => g.PhoneNumber)
-                      .HasMaxLength(14);
+                      .IsRequired();
             });
 
             // Staff
@@ -90,24 +95,6 @@ namespace Hotel_Reservation_System.Infrastructure
                       .HasColumnType("decimal(18,2)");
             });
 
-           // Reservation
-            modelBuilder.Entity<Reservation>(entity =>
-            {
-
-
-                entity.Property(r => r.Days)
-                      .IsRequired();
-                //Reservation -> Guest
-                entity.HasOne(r => r.Guest)
-               .WithMany()
-              .HasForeignKey(r => r.Id);
-
-
-                entity.HasOne(r => r.Room)
-                      .WithMany()
-                      .HasForeignKey(r => r.Id);
-            });
-
             modelBuilder.Entity<Reservation>(entity =>
             {
                 entity.Property(r => r.Days)
@@ -129,13 +116,15 @@ namespace Hotel_Reservation_System.Infrastructure
 
                
             
-        });
-            //modelBuilder.Entity<ReservationService>(entity =>
-            //{
-            //    entity.HasOne(p => p.Reservation)
-            //          .WithMany()
-            //          .HasForeignKey(p => p.ReservationId);
-            //});
+            });
+            modelBuilder.Entity<ReservationService>(entity =>
+            {
+                entity.HasOne(s => s.Reservation)
+                      .WithMany(r => r.Services)
+                      .HasForeignKey(s => s.ReservationId)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
             modelBuilder.Entity<Person>(entity =>
             {
                 entity.HasKey(p => p.Id);

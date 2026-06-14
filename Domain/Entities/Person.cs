@@ -11,19 +11,17 @@ namespace Hotel_Reservation_System.Domain.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public int PhoneNumber{ get; set; }
         public int Id { get; set; }
 
         public Person()
         {
 
         }
-        public Person(string firstName, string lastName, int id, int phoneNumber)
+        public Person(string firstName, string lastName, int id)
         {
             this.FirstName = firstName;
             this.LastName = lastName;
             Id = id;
-            this.PhoneNumber = phoneNumber;
         }
     }
 }

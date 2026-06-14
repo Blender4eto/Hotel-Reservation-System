@@ -11,6 +11,20 @@ namespace Hotel_Reservation_System.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "People",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_People", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Rooms",
                 columns: table => new
                 {
@@ -28,25 +42,44 @@ namespace Hotel_Reservation_System.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "People",
+                name: "Staffs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
-                    GuestId = table.Column<int>(type: "int", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: true),
-                    RoomId = table.Column<int>(type: "int", nullable: true),
-                    Position = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    StaffId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Position = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    StaffId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_People", x => x.Id);
+                    table.PrimaryKey("PK_Staffs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_People_Rooms_RoomId",
+                        name: "FK_Staffs_People_Id",
+                        column: x => x.Id,
+                        principalTable: "People",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Guests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    GuestId = table.Column<int>(type: "int", nullable: false),
+                    PhoneNumber = table.Column<int>(type: "int", nullable: false),
+                    RoomId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Guests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Guests_People_Id",
+                        column: x => x.Id,
+                        principalTable: "People",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Guests_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
                         principalColumn: "Id");
@@ -66,9 +99,9 @@ namespace Hotel_Reservation_System.Migrations
                 {
                     table.PrimaryKey("PK_Reservation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reservation_People_GuestId",
+                        name: "FK_Reservation_Guests_GuestId",
                         column: x => x.GuestId,
-                        principalTable: "People",
+                        principalTable: "Guests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -87,7 +120,7 @@ namespace Hotel_Reservation_System.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Type = table.Column<int>(type: "int", nullable: false),
                     DurationInDays = table.Column<int>(type: "int", nullable: false),
-                    ReservationId = table.Column<int>(type: "int", nullable: true)
+                    ReservationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,12 +129,13 @@ namespace Hotel_Reservation_System.Migrations
                         name: "FK_ReservationServices_Reservation_ReservationId",
                         column: x => x.ReservationId,
                         principalTable: "Reservation",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_People_RoomId",
-                table: "People",
+                name: "IX_Guests_RoomId",
+                table: "Guests",
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
@@ -127,7 +161,13 @@ namespace Hotel_Reservation_System.Migrations
                 name: "ReservationServices");
 
             migrationBuilder.DropTable(
+                name: "Staffs");
+
+            migrationBuilder.DropTable(
                 name: "Reservation");
+
+            migrationBuilder.DropTable(
+                name: "Guests");
 
             migrationBuilder.DropTable(
                 name: "People");
