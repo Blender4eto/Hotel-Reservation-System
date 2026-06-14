@@ -126,8 +126,16 @@ namespace Hotel_Reservation_System.Infrastructure
                 entity.HasOne(r => r.Room)
                       .WithMany()
                       .HasForeignKey(r => r.RoomId);
-            });
-            // Person (ако е base class)
+
+               
+            
+        });
+            //modelBuilder.Entity<ReservationService>(entity =>
+            //{
+            //    entity.HasOne(p => p.Reservation)
+            //          .WithMany()
+            //          .HasForeignKey(p => p.ReservationId);
+            //});
             modelBuilder.Entity<Person>(entity =>
             {
                 entity.HasKey(p => p.Id);
@@ -140,6 +148,7 @@ namespace Hotel_Reservation_System.Infrastructure
                       .IsRequired()
                       .HasMaxLength(50);
             });
+         
         }
     }
 }
