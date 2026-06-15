@@ -50,33 +50,30 @@ namespace Hotel_Reservation_System.ConsoleUI
                             MoveOutGuest();
                             break;
                         case "9":
-                            AddServiseToReservation();
-                            break;
-                        case "10":
                             ShowReciept();
                             break;
-                        case "11":
+                        case "10":
                             ShowReservationHistory();
                             break;
-                        case "12":
+                        case "11":
                             ShowOccupancyRate();
                             break;
-                        case "13":
+                        case "12":
                             ShowIncomeRate();
                             break;
-                        case "14":
+                        case "13":
                             ManageReservationServices();
                             break;
-                        case "15":
+                        case "14":
                             ValidateReservation();
                             break;
-                        case "16":
+                        case "15":
                             ShowAllGuests();
                             break;
-                        case "17":
+                        case "16":
                             ShowMostPopularRooms();
                             break;
-                        case "18":
+                        case "17":
                             ManageStaffMembers();
                             break;
                         case "0":
@@ -105,16 +102,15 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("6. Register a Guest");
             Console.WriteLine("7. Move in a Guest");
             Console.WriteLine("8. Move out a Guest");
-            Console.WriteLine("9. Add an Service to Reservation"); //to an existing reservation
-            Console.WriteLine("10. Show Reciept");
-            Console.WriteLine("11. Reservations History");
-            Console.WriteLine("12. Occupancy Rate");
-            Console.WriteLine("13. Income Rate");
-            Console.WriteLine("14. Manage a Reservation's Services"); // Добавяне на допълнителна услуга към списък с услуги - CAN SKIP!!!!!!!
-            Console.WriteLine("15. Validate Reservation"); // Проверка дали определена резервация се припокрива с друга резервация за една и съща стая
-            Console.WriteLine("16. Show all Guests");
-            Console.WriteLine("17. Show Most Popular Rooms");
-            Console.WriteLine("18. Manage Staff Members");
+            Console.WriteLine("9. Show Reciept");
+            Console.WriteLine("10. Reservations History");
+            Console.WriteLine("11. Occupancy Rate");
+            Console.WriteLine("12. Income Rate");
+            Console.WriteLine("13. Manage a Reservation's Services"); // Добавяне на допълнителна услуга към списък с услуги - CAN SKIP!!!!!!!
+            Console.WriteLine("14. Validate Reservation"); // Проверка дали определена резервация се припокрива с друга резервация за една и съща стая
+            Console.WriteLine("15. Show all Guests");
+            Console.WriteLine("16. Show Most Popular Rooms");
+            Console.WriteLine("17. Manage Staff Members");
             Console.WriteLine("0. Exit");
             Console.WriteLine("-----------------------------");
             Console.Write("Choose an option: ");
@@ -272,6 +268,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                     type = (RoomType)typeNum;
                     break;
                 default:
+                    Console.Clear();
                     Console.WriteLine("Invalid choice. Returning to Menu.\n");
                     return;
             }
@@ -296,6 +293,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.Clear();
             if (hotelService.Rooms.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No rooms added yet.\n");
                 return;
             }
@@ -303,6 +301,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             var avaibleRooms = hotelService.Rooms.Where(r => r.IsFree).ToList();
             if (avaibleRooms.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No avaible rooms at the moment.\n");
                 return;
             }
@@ -388,6 +387,7 @@ namespace Hotel_Reservation_System.ConsoleUI
 
             if (hotelService.Reservations.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No reservations found.\n");
                 return;
             }
@@ -478,6 +478,7 @@ namespace Hotel_Reservation_System.ConsoleUI
 
                 if (!reservation.Room.IsFree)
                 {
+                    Console.Clear();
                     Console.WriteLine("Room already occupied.\n");
                     return;
                 }
@@ -524,7 +525,7 @@ namespace Hotel_Reservation_System.ConsoleUI
         }
 
         //9
-        private void AddServiseToReservation()
+        private void ShowReciept()
         {
             Console.Clear();
             if (hotelService.Reservations.Count == 0)
@@ -535,6 +536,144 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
             PrintReservations();
             Console.Write("Please choose a reservation for reciept (id):");
+            if (!int.TryParse(Console.ReadLine(), out int choice))
+            {
+                Console.Clear();
+                Console.WriteLine("Invalid reservation id.\n");
+                return;
+            }
+            Console.Clear();
+
+            Reservation reservation = null;
+            try
+            {
+                reservation = hotelService.GetReservationById(choice);
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine(ex.Message);
+                return;
+            }
+            Console.WriteLine("Reservation details:");
+            Console.WriteLine($"Id - {reservation.Id}");
+            Console.WriteLine($"Guest - {reservation.Guest.FirstName} {reservation.Guest.LastName}");
+            Console.WriteLine($"Room number - {reservation.Room.RoomNumber}");
+            Console.WriteLine($"Days - {reservation.Days}");
+            PrintReservationIncludedServices(reservation);
+            Console.WriteLine($"Final price - {reservation.FinalPrice}");
+            Console.WriteLine("\nPress Enter to cntinue.");
+            Console.ReadLine();
+            Console.Clear();
+        }
+
+        //10
+        private void ShowReservationHistory()
+        {
+            Console.Clear();
+
+            var reservations = hotelService.Reservations;
+
+            if (reservations.Count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("No reservations.\n");
+                return;
+            }
+
+            Console.WriteLine("------ History ------");
+
+            foreach (var r in reservations)
+            {
+                Console.WriteLine(
+                    $"Id.{r.Id}: Room {r.Room.RoomNumber}, " +
+                    $"Guest {r.Guest.FirstName} {r.Guest.LastName}, " +
+                    $"Days {r.Days}, Price {r.FinalPrice}");
+            }
+
+            Console.WriteLine("---------------------\n");
+        }
+
+        //11
+        private void ShowOccupancyRate()
+        {
+            Console.Clear();
+            if (hotelService.Rooms.Count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("No rooms added yet.\n");
+                return;
+            }
+
+            int occupiedRooms = hotelService.GetOccupiedRoomsCount();
+            int allRooms = hotelService.Rooms.Count;
+            decimal occupancyRate = hotelService.GetOccupancyRate();
+
+            Console.WriteLine("------ Occupancy Rate ------");
+            Console.WriteLine($"Occupied rooms: {occupiedRooms} / {allRooms}");
+            Console.WriteLine($"Occupancy rate: {occupancyRate:F2}%");
+            Console.WriteLine("----------------------------\n");
+        }
+
+        //12
+        private void ShowIncomeRate()
+        {
+            Console.Clear();
+            if (hotelService.Reservations.Count == 0)
+            {
+                Console.WriteLine("No reservations added yet.\n");
+                return;
+            }
+
+            decimal income = hotelService.GetIncomeRate();
+
+            Console.WriteLine("------ Income Rate ------");
+            Console.WriteLine($"Total income: {income} Euro");
+            Console.WriteLine("-------------------------\n");
+        }
+
+        //13
+        private void ManageReservationServices()
+        {
+            Console.Clear();
+
+            Console.WriteLine("1. Add service");
+            Console.WriteLine("2. Remove service");
+            Console.WriteLine("3. Back to menu");
+
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    AddServiseToReservation();
+                    break;
+                case "2":
+                    RemoveServiceFromReservation();
+                    break;
+                case "3":
+                    Console.Clear();
+                    Console.WriteLine("Returned to menu.\n");
+                    break;
+                default:
+                    Console.Clear();
+                    Console.WriteLine("Invalid option.\n");
+                    break;
+            }
+        }
+
+        //13.1
+        private void AddServiseToReservation()
+        {
+            Console.Clear();
+            if (hotelService.Reservations.Count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("No reservations added yet.\n");
+                return;
+            }
+            PrintReservations();
+            Console.Write("Please choose a reservation (id):");
             if (!int.TryParse(Console.ReadLine(), out int choice))
             {
                 Console.Clear();
@@ -586,8 +725,8 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
         }
 
-        //10
-        private void ShowReciept()
+        //13.2
+        private void RemoveServiceFromReservation()
         {
             Console.Clear();
             if (hotelService.Reservations.Count == 0)
@@ -597,7 +736,7 @@ namespace Hotel_Reservation_System.ConsoleUI
                 return;
             }
             PrintReservations();
-            Console.Write("Please choose a reservation for reciept (id):");
+            Console.Write("Please choose a reservation (id):");
             if (!int.TryParse(Console.ReadLine(), out int choice))
             {
                 Console.Clear();
@@ -617,99 +756,31 @@ namespace Hotel_Reservation_System.ConsoleUI
                 Console.WriteLine(ex.Message);
                 return;
             }
-            Console.WriteLine("Reservation details:");
-            Console.WriteLine($"Id - {reservation.Id}");
-            Console.WriteLine($"Guest - {reservation.Guest.FirstName} {reservation.Guest.LastName}");
-            Console.WriteLine($"Room number - {reservation.Room.RoomNumber}");
-            Console.WriteLine($"Days - {reservation.Days}");
+
             PrintReservationIncludedServices(reservation);
-            Console.WriteLine($"Final price - {reservation.FinalPrice}");
-            Console.WriteLine("\nPress Enter to cntinue.");
-            Console.ReadLine();
-            Console.Clear();
-        }
-
-        //11
-        private void ShowReservationHistory()
-        {
-            Console.Clear();
-
-            var reservations = hotelService.Reservations;
-
-            if (reservations.Count == 0)
+            Console.Write("Choose service id: ");
+            if (!int.TryParse(Console.ReadLine(), out int serviceId) || !Enum.IsDefined(typeof(ServiceType), serviceId))
             {
                 Console.Clear();
-                Console.WriteLine("No reservations.\n");
+                Console.WriteLine("Invalid service.\n");
                 return;
             }
 
-            Console.WriteLine("------ History ------");
-
-            foreach (var r in reservations)
+            try
             {
-                Console.WriteLine(
-                    $"Id.{r.Id}: Room {r.Room.RoomNumber}, " +
-                    $"Guest {r.Guest.FirstName} {r.Guest.LastName}, " +
-                    $"Days {r.Days}, Price {r.FinalPrice}");
+                Console.Clear();
+                hotelService.RemoveServiceFromReservation(reservation, serviceId);
+                Console.WriteLine("The service was successfuly removed from the reservation.\n");
             }
-
-            Console.WriteLine("---------------------\n");
-        }
-
-        //12
-        private void ShowOccupancyRate()
-        {
-            Console.Clear();
-            if (hotelService.Rooms.Count == 0)
+            catch (Exception ex)
             {
-                Console.WriteLine("No rooms added yet.\n");
+                Console.Clear();
+                Console.WriteLine(ex.Message);
                 return;
             }
-
-            int occupiedRooms = hotelService.GetOccupiedRoomsCount();
-            int allRooms = hotelService.Rooms.Count;
-            decimal occupancyRate = hotelService.GetOccupancyRate();
-
-            Console.WriteLine("------ Occupancy Rate ------");
-            Console.WriteLine($"Occupied rooms: {occupiedRooms} / {allRooms}");
-            Console.WriteLine($"Occupancy rate: {occupancyRate:F2}%");
-            Console.WriteLine("----------------------------\n");
-        }
-
-        //13
-        private void ShowIncomeRate()
-        {
-            Console.Clear();
-            if (hotelService.Reservations.Count == 0)
-            {
-                Console.WriteLine("No reservations added yet.\n");
-                return;
-            }
-
-            decimal income = hotelService.GetIncomeRate();
-
-            Console.WriteLine("------ Income Rate ------");
-            Console.WriteLine($"Total income: {income} Euro");
-            Console.WriteLine("-------------------------\n");
         }
 
         //14
-        private void ManageReservationServices()
-        {
-            Console.Clear();
-
-            Console.WriteLine("1. Add service");
-            Console.WriteLine("2. Back");
-
-            string choice = Console.ReadLine();
-
-            if (choice == "1")
-            {
-                AddServiseToReservation();
-            }
-        }
-
-        //15
         private void ValidateReservation()
         {
             Console.Clear();
@@ -746,7 +817,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
         }
 
-        //16
+        //15
         private void ShowAllGuests()
         {
             Console.Clear();
@@ -770,7 +841,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("--------------------\n");
         }
 
-        //17
+        //16
         private void ShowMostPopularRooms()
         {
             Console.Clear();
@@ -799,7 +870,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("-------------------------------------------------------------------------\n");
         }
 
-        //18
+        //17
         private void ManageStaffMembers()
         {
             Console.Clear();
@@ -829,7 +900,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
         }
 
-        //18.1
+        //17.1
         private void AddStaff()
         {
             Console.Clear();
@@ -864,7 +935,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
         }
 
-        //18.2
+        //17.2
         private void EditStaff()
         {
             Console.Clear();
@@ -913,7 +984,7 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
         }
 
-        //18.3
+        //17.3
         private void RemoveStaff()
         {
             Console.Clear();

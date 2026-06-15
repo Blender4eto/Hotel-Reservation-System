@@ -65,5 +65,10 @@ namespace Hotel_Reservation_System.Domain.Entities
 
             Services.Add(service);
         }
+
+        public void RemoveService(ReservationService service)
+        {
+            Services.Remove(service);
+        }
     }
 } 

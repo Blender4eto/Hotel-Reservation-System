@@ -171,6 +171,14 @@ namespace Hotel_Reservation_System.Application
 
             reservationServiceRepository.AddReservationService(service);
         }
+        public void RemoveServiceFromReservation(Reservation reservation, int serviceId)
+        {
+            if (reservation.Services.Count == 0) throw new ArgumentException("There are no services to remove in the reservation.");
+
+            ReservationService service = reservationServiceRepository.GetReservationServiceById(serviceId);
+
+            reservation.RemoveService(service);
+        }
 
 
         //-----------Staff related methods and objects-----------
