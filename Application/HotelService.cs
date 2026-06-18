@@ -146,7 +146,6 @@ namespace Hotel_Reservation_System.Application
 
         public void CancelReservation(int reservationId)
         {
-            // will throw if not found
             var reservation = GetReservationById(reservationId);
             reservationRepository.RemoveReservation(reservationId);
         }

@@ -94,8 +94,8 @@ namespace Hotel_Reservation_System.ConsoleUI
         public void Menu()
         {
             Console.WriteLine("------ Hotel ------");
-            Console.WriteLine("1. Add Room"); // типа определя цената на стаята
-            Console.WriteLine("2. Edit Room"); // типа определя цената на стаята
+            Console.WriteLine("1. Add Room");
+            Console.WriteLine("2. Edit Room");
             Console.WriteLine("3. Show Available Rooms");
             Console.WriteLine("4. Make a Reservation");
             Console.WriteLine("5. Cancel a Reservation");
@@ -106,8 +106,8 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("10. Reservations History");
             Console.WriteLine("11. Occupancy Rate");
             Console.WriteLine("12. Income Rate");
-            Console.WriteLine("13. Manage a Reservation's Services"); // Добавяне на допълнителна услуга към списък с услуги - CAN SKIP!!!!!!!
-            Console.WriteLine("14. Validate Reservation"); // Проверка дали определена резервация се припокрива с друга резервация за една и съща стая
+            Console.WriteLine("13. Manage a Reservation's Services");
+            Console.WriteLine("14. Validate Reservation");
             Console.WriteLine("15. Show all Guests");
             Console.WriteLine("16. Show Most Popular Rooms");
             Console.WriteLine("17. Manage Staff Members");
@@ -123,7 +123,6 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("------ Adding Room ------");
             Console.WriteLine("Please enter room's");
             Console.Write("number: ");
-            //int num = int.Parse(Console.ReadLine());
             if (!int.TryParse(Console.ReadLine(), out int num))
             {
                 Console.Clear();
@@ -132,7 +131,6 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
 
             Console.Write("floor: ");
-            //int floor = int.Parse(Console.ReadLine());
             if (!int.TryParse(Console.ReadLine(), out int floor))
             {
                 Console.Clear();
@@ -141,7 +139,6 @@ namespace Hotel_Reservation_System.ConsoleUI
             }
 
             Console.Write("capacity: ");
-            //int capacity = int.Parse(Console.ReadLine());
             if (!int.TryParse(Console.ReadLine(), out int capacity))
             {
                 Console.Clear();
@@ -155,7 +152,6 @@ namespace Hotel_Reservation_System.ConsoleUI
             Console.WriteLine("2. Luxury");
             Console.WriteLine("-------------------");
             Console.Write("Please choose a type: ");
-            //int typeNum = int.Parse(Console.ReadLine());
             if (!int.TryParse(Console.ReadLine(), out int typeNum) || !Enum.IsDefined(typeof(RoomType), typeNum))
             {
                 Console.Clear();
@@ -212,7 +208,6 @@ namespace Hotel_Reservation_System.ConsoleUI
             int floor = room.Floor;
             int capacity = room.Capacity;
             var type = room.Type;
-            //decimal price = room.Price;
 
             Console.WriteLine("\n------ Editable: ------");
             Console.WriteLine("1. Room's number");

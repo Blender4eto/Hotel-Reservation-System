@@ -100,10 +100,6 @@ namespace Hotel_Reservation_System.Infrastructure
                 entity.Property(r => r.Days)
                       .IsRequired();
 
-                //entity.Property(r => r.FinalPrice)
-                // .HasColumnType("decimal(18,2)")
-                //  .IsRequired();
-
                 // Reservation -> Guest
                 entity.HasOne(r => r.Guest)
                       .WithMany()
